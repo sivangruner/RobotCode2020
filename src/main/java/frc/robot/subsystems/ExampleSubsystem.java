@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -16,6 +17,8 @@ public class ExampleSubsystem extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
+  WPI_TalonSRX talon;
+  WPI_VictorSPX victor;
   public ExampleSubsystem() {
 
   }
