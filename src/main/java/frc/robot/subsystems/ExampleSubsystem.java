@@ -17,8 +17,6 @@ public class ExampleSubsystem extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-  WPI_TalonSRX talon;
-  WPI_VictorSPX victor;
   public ExampleSubsystem() {
 
   }
