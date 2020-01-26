@@ -30,7 +30,6 @@ public class RobotContainer {
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
-  public static final int PORT = 5;
   public RobotContainer() {
     
     // Configure the button bindings
