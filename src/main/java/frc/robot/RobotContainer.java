@@ -32,7 +32,6 @@ public class RobotContainer {
    */
   public RobotContainer() {
     
-    // Configure the button bindings
     configureButtonBindings();
   }
 
@@ -43,6 +42,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
   }
 
 
@@ -52,7 +52,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
 }
