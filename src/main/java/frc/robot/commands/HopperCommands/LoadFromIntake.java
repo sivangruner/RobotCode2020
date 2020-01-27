@@ -8,18 +8,30 @@
 package frc.robot.commands.HopperCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Shooter;
 
 public class LoadFromIntake extends CommandBase {
+  private Hopper hopperSubsystem;
+  private Shooter shooterSubsystem;
   /**
    * Creates a new LoadFromIntake.
    */
   public LoadFromIntake() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    hopperSubsystem = RobotContainer.hopper;
+    shooterSubsystem = RobotContainer.shooter;
+    addRequirements(hopperSubsystem, shooterSubsystem);
   }
+
+    // Use addRequirements() here to declare subsystemMETER_PER_TICK dependencies.
+  
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    hopperSubsystem.setFeedTalon(Constants.HOPPER_MAINTAIN_BALLS_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,6 +42,7 @@ public class LoadFromIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    isFinished();
   }
 
   // Returns true when the command should end.

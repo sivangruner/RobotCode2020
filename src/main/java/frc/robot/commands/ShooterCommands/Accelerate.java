@@ -8,13 +8,20 @@
 package frc.robot.commands.ShooterCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Shooter;
 
 public class Accelerate extends CommandBase {
   /**
    * Creates a new Accelerate.
    */
+  Shooter shooter;
+  double speed = 0.8;
+  boolean acc = true;
+
   public Accelerate() {
-    // Use addRequirements() here to declare subsystem dependencies.
+   shooter = RobotContainer.shooter;
+   addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +32,15 @@ public class Accelerate extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(acc){
+      shooter.setSpeed(speed);
+      
+    }
+    else if(!acc){
+      shooter.setSpeed(0);
+      
+    }
+    acc = !acc;
   }
 
   // Called once the command ends or is interrupted.

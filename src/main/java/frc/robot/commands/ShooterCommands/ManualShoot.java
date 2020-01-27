@@ -8,12 +8,23 @@
 package frc.robot.commands.ShooterCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Shooter;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Hopper;
 
 public class ManualShoot extends CommandBase {
   /**
    * Creates a new ManualShoot.
    */
+ 
+  double shooting_speed = 0.5;
+  double feeding_speed = 0.7;
+  private Shooter shooter;
+  private Hopper hopper;
   public ManualShoot() {
+    this.shooter = RobotContainer.shooter;
+    this.hopper = RobotContainer.hopper;
+    addRequirements(shooter,hopper);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,6 +36,8 @@ public class ManualShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    shooter.setSpeed(shooting_speed);
+    hopper.setFeedTalon(feeding_speed);
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +48,6 @@ public class ManualShoot extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

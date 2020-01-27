@@ -1,20 +1,17 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.IntakeCommands;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.*;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class AutoRoller extends CommandBase {
-  /**
-   * Creates a new AutoRoller.
-   */
+  private Intake intake;
+
   public AutoRoller() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    intake = RobotContainer.intake;
   }
 
   // Called when the command is initially scheduled.
@@ -25,11 +22,13 @@ public class AutoRoller extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    Intake.setSpeedJoint(-0.4);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Intake.setSpeedJoint(0);
   }
 
   // Returns true when the command should end.
