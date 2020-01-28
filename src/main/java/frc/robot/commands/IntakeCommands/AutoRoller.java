@@ -10,8 +10,9 @@ import frc.robot.RobotContainer;
 public class AutoRoller extends CommandBase {
   private Intake intake;
 
-  public AutoRoller() {
-    intake = RobotContainer.intake;
+  public AutoRoller(Intake intake) {
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -22,13 +23,13 @@ public class AutoRoller extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Intake.setSpeedJoint(-0.4);
+    intake.setSpeedJoint(-0.4);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Intake.setSpeedJoint(0);
+    intake.setSpeedJoint(0);
   }
 
   // Returns true when the command should end.

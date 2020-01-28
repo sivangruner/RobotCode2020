@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -28,6 +29,21 @@ public class Driver extends SubsystemBase {
     this.diffDrive = new DifferentialDrive(left, right);
     this.gyro = new PigeonIMU(0);
     
+  }
+
+  public void configMotorControllers(){
+    this.leftLeader.setNeutralMode(NeutralMode.Brake);
+    this.leftFollower.setNeutralMode(NeutralMode.Brake);
+    this.rightLeader.setNeutralMode(NeutralMode.Brake);
+    this.rightFollower.setNeutralMode(NeutralMode.Brake);
+
+    this.leftFollower.follow(this.leftLeader);;
+    this.rightFollower.follow(this.rightLeader);
+    
+  }
+
+  public void configMotorControllers(double robotVoltage){
+
   }
 
   @Override

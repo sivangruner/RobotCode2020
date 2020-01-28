@@ -1,8 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* Dolev 😠😠😠                                                              .                                                               */
 /*----------------------------------------------------------------------------*/
 ///בס"ד
 //___.                                    .___
@@ -14,39 +11,35 @@
 package frc.robot.commands.ClimbCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climb;
 
-public class AutoFix extends CommandBase {
-  /**
-  
-  */
-  private int p;
-  private int change;
+public class ClimbCommand extends CommandBase {
   private Climb climbSubSystem;
-  public AutoFix(Climb m_climb) {
-    this.climbSubSystem = m_climb;
-    addRequirements(this.climbSubSystem);
+  private JoystickButton left;
+  private JoystickButton right;
+  private JoystickButton both;
+
+
+  public ClimbCommand(Climb m_climb) {
+    climbSubSystem = m_climb;
+    left = RobotContainer.
+    addRequirements(climbSubSystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    p = 5;
-    change = 3;
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while(climbSubSystem.getLeftMotorPercanteOutput() > climbSubSystem.getRightMotorPercanteOutput() + p){
-      climbSubSystem.setRightMotorPercante(climbSubSystem.getRightMotorPercanteOutput() + change);
-      change *= 0.8;
-    }
-    while(climbSubSystem.getLeftMotorPercante() < climbSubSystem.getRightMotorPercante() + p){
-      climbSubSystem.setLeftMotorPercante(climbSubSystem.getLeftMotorPercanteOutput() + change);
-      change *= 0.8;
-    }
+    if()
   }
 
   // Called once the command ends or is interrupted.

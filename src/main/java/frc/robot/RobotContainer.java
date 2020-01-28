@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommands.ManualRoller;
 import frc.robot.commands.ShooterCommands.Accelerate;
 import frc.robot.commands.ShooterCommands.ShootLower;
@@ -31,35 +30,45 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  public static Driver driver = new Driver();
-  public static Intake intake = new Intake();
-  public static Hopper hopper = new Hopper();
-  public static Shooter shooter = new Shooter();
-  public static Climb climb = new Climb();
+  private Driver driver;
+  private Intake intake;
+  private Hopper hopper;
+  private Shooter shooter;
+  private Climb climb;
   
   // private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  public static Joystick driverController;
+  public static XboxController driverController;
   public JoystickButton a;
   public JoystickButton manualShoot;
   public JoystickButton shootLower;
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
+  
+  public Joystick console; //the console with buttons for the climb
+  public DigitalInput button1;
+  public DigitalInput button2;
+  public DigitalInput button3;
+
   public RobotContainer() {
-    driverController = new Joystick(0);
-    a = new JoystickButton(driverController,0);
-    manualShoot = new JoystickButton(driverController,0);
-    shootLower = new JoystickButton(driverController, 0);
+    this.configureSubsystems();
+    this.driverController = new XboxController(0);
+    this.a = new JoystickButton(this.driverController,XboxController.Button.kA.value);
+    this.manualShoot = new JoystickButton(this.driverController,0);
+    this.shootLower = new JoystickButton(this.driverController, XboxController.Button.kB.value);
     
     // Configure the button bindings
-    configureButtonBindings();
+    this.configureButtonBindings();
   }
 
+  private void configureSubsystems(){
+    this.driver = new Driver();
+    this.intake = new Intake();
+    this.hopper = new Hopper();
+    this.shooter = new Shooter();
+    this.climb = new Climb();
+  }
   private void configureButtonBindings() {
-    a.toggleWhenPressed(new InstantCommand(shooter::switchAccelerate,shooter));
-    shootLower.whileHeld(new ShootLower());
-    
+    this.a.toggleWhenPressed(new Accelerate(0.8, this.shooter));
+    this.shootLower.whileHeld(new ShootLower(this.shooter, this.hopper));
   }
 
 

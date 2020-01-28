@@ -21,11 +21,11 @@ public class Hopper extends SubsystemBase {
    * Hoppert.
    */
   public Hopper() {
-    beltsTalon = new TalonSRX(RobotMap.HopperPorts.TALON_BELTS_PORT);
-    feedTalon = new TalonSRX(RobotMap.HopperPorts.TALON_BELTS_PORT);
+    this.beltsTalon = new TalonSRX(RobotMap.HopperPorts.TALON_BELTS_PORT);
+    this.feedTalon = new TalonSRX(RobotMap.HopperPorts.TALON_BELTS_PORT);
 
-    beltsTalon.configFactoryDefault();
-    feedTalon.configFactoryDefault();
+    this.beltsTalon.configFactoryDefault();
+    this.feedTalon.configFactoryDefault();
 
     /* 
     // Not sure what this is ¯\_(ツ)_/¯
@@ -38,49 +38,54 @@ public class Hopper extends SubsystemBase {
     this.updateCurrents();
   }
 
-  public TalonSRX getBeltTalon(){
-    return beltsTalon;
+  public double getBeltSpeed(){
+    return this.beltsTalon.getSelectedSensorVelocity();
   }
 
-  public TalonSRX getFeedTalon(){
-    return feedTalon;
+  public double getFeedSpeed(){
+    return this.feedTalon.getSelectedSensorVelocity();
   }
 
-  public void setBeltTalon(double s){
+  public void setBeltsSpeed(double s){
     if (startCurrentBelts - currentBelts > Constants.HOPPER_CURRENT_DELTA) {
-      beltsTalon.set(ControlMode.PercentOutput, Constants.HOPPER_LOAD_BALLS_SPEED);
+      this.beltsTalon.set(ControlMode.PercentOutput, Constants.HOPPER_LOAD_BALLS_SPEED);
     } else {
-      beltsTalon.set(ControlMode.PercentOutput, s);
+      this.beltsTalon.set(ControlMode.PercentOutput, s);
     }
   }
 
   public void setFeedTalon(double s){
-    feedTalon.set(ControlMode.PercentOutput, s);
+    this.feedTalon.set(ControlMode.PercentOutput, s);
   }
 
   public void updateCurrents() {
-    currentBelts = beltsTalon.getSelectedSensorVelocity();
-    currentFeed = feedTalon.getSelectedSensorVelocity();
+    this.currentBelts = this.beltsTalon.getOutputCurrent();
+    this.currentFeed = this.feedTalon.getOutputCurrent();
   }
 
   public double getCurrentBeltsTalon(){
-    return currentBelts;
+    return this.currentBelts;
   }
 
   public double getCurrentFeedTalon(){
-    return currentFeed;
+    return this.currentFeed;
   }
 
-  public void resetCurrentStartBelts(){
-    startCurrentBelts = beltsTalon.getSelectedSensorVelocity();
+  private void resetCurrentStartBelts(){
+    this.startCurrentBelts = this.beltsTalon.getOutputCurrent();
   }
 
-  public void resetCurrentStartFeed(){
-    startCurrentFeed = FeedTalon.getSelectedSensorVelocity();
+  private void resetCurrentStartFeed(){
+    this.startCurrentFeed = this.feedTalon.getOutputCurrent();
+  }
+
+  public void configControl(){
+    this.resetCurrentStartBelts();
+    this.resetCurrentStartFeed();
   }
 
   @Override
   public void periodic() {
-    updateCurrents();
+    this.updateCurrents();
   }
 }

@@ -21,11 +21,10 @@ public class ManualShoot extends CommandBase {
   double feeding_speed = 0.7;
   private Shooter shooter;
   private Hopper hopper;
-  public ManualShoot() {
-    this.shooter = RobotContainer.shooter;
-    this.hopper = RobotContainer.hopper;
-    addRequirements(shooter,hopper);
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ManualShoot(Shooter shooter,Hopper hopper) {
+    this.shooter = shooter;
+    this.hopper = hopper;
+    addRequirements(this.shooter,this.hopper);
   }
 
   // Called when the command is initially scheduled.

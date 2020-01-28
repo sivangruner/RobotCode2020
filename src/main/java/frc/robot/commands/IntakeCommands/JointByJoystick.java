@@ -7,13 +7,21 @@
 
 package frc.robot.commands.IntakeCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Intake;
 
 public class JointByJoystick extends CommandBase {
+  private Intake intake;
+  private DoubleSupplier joystick;
   /**
    * Creates a new JointByJoystick.
    */
-  public JointByJoystick() {
+  public JointByJoystick(Intake intake, DoubleSupplier joystick) {
+    this.intake = intake;
+    this.joystick = joystick;
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,6 +33,16 @@ public class JointByJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(this.intake.lastUpOrDown()){
+      if(this.intake.getLimitBottom()){
+        this.intake.setSpeedJoint(0);
+      }
+    }
+    else{
+      if(this.intake.getLimitTop())
+        this.intake.setSpeedJoint(0);
+    }
+    this.intake.setSpeedJoint(this.joystick.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

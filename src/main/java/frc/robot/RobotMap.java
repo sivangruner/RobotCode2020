@@ -7,9 +7,7 @@
 
 package frc.robot;
 
-/**
- * Add your docs here.
- */
+
 public class RobotMap {
 
     public class DriverPorts{
@@ -43,7 +41,7 @@ public class RobotMap {
     public class ClimbPorts{
         public static final int TALON_RIGHT = 0;
         public static final int TALON_LEFT = 0;
-        public static final int VICTOR_CLIMB;
+        public static final int VICTOR_CLIMB = 0;
         
     }
 }
