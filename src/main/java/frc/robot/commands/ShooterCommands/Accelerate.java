@@ -12,14 +12,11 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter;
 
 public class Accelerate extends CommandBase {
-  /**
-   * Creates a new Accelerate.
-   */
   Shooter shooter;
-  double speed = 0.8;
-  boolean acc = true;
+  double speed;
 
-  public Accelerate() {
+  public Accelerate(double speed) {
+   this.speed = speed;
    shooter = RobotContainer.shooter;
    addRequirements(shooter);
   }
@@ -27,30 +24,23 @@ public class Accelerate extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooter.setSpeed(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(acc){
-      shooter.setSpeed(speed);
-      
-    }
-    else if(!acc){
-      shooter.setSpeed(0);
-      
-    }
-    acc = !acc;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs(shooter.getVelocity() - speed) <= .2;
   }
 }

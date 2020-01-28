@@ -15,11 +15,11 @@ import frc.robot.commands.ShooterCommands.Accelerate;
 import frc.robot.commands.ShooterCommands.ShootLower;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Driver;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 /**
@@ -56,27 +56,14 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
-    a.toggleWhenPressed(new Accelerate());
-    manualShoot.whileHeld(new ManualRoller());
+    a.toggleWhenPressed(new InstantCommand(shooter::switchAccelerate,shooter));
     shootLower.whileHeld(new ShootLower());
     
   }
 
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }

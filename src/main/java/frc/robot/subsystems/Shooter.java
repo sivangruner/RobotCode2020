@@ -1,27 +1,25 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import frc.robot.*;
+import frc.robot.commands.ShooterCommands.Accelerate;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix.*;
 
 public class Shooter extends SubsystemBase {
   private WPI_TalonSRX leader;
   private WPI_VictorSPX follower;
-
+  
+  private boolean acc = false;
 
   // constants
   public static final double throwingAngle = Math.toRadians(0);
@@ -35,6 +33,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter_kI",0);
     SmartDashboard.putNumber("Shooter_kD",0);
     SmartDashboard.putNumber("Shooter_kF",0);
+
+    this.setDefaultCommand(new ConditionalCommand(new Accelerate(0.8),new Accelerate(0),() -> this.acc));
   }
 
 
@@ -45,13 +45,16 @@ public class Shooter extends SubsystemBase {
     this.leader.config_kF(0,PIDF.kF.value);
   }
 
+  public void switchAccelerate(){
+    this.acc != this.acc;
+  }
 
   
 
   public int getEncoderPos(){
     return this.leader.getSelectedSensorPosition();
   }
-  public double getEncoderVelocity(){
+  public double getVelocity(){
     // in M/S
     return (double)this.leader.getSelectedSensorVelocity()/10;
   }

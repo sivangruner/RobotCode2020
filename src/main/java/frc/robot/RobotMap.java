@@ -22,6 +22,8 @@ public class RobotMap {
     public class IntakePorts{
         public static final int ROLLER = 0;
         public static final int JOINT = 0;
+        public static final int LIMIT_TOP = 0;
+        public static final int LIMIT_BOTTOM = 0;
 
     }
 
