@@ -11,6 +11,8 @@ public final class Constants {
     public static final double WHEEL_DIAMITER = 0.2032;
     public static final double METER_PER_TICK = .001558524480;
     public static final double TICKS_PER_100MS_TO_PRM = 60 * 10 / TICKS_PER_REVOLTION;
+    public static final double TRACK_WIDTH = 0;
+	public static final double timesRawVelocityToMeters = 0;
     ////////////////////////////////////////////////////////////////////
     // field constants
     public static final double ROBOT_HEIGHT = 0;
@@ -24,4 +26,9 @@ public final class Constants {
     public static final int XBOX_A_PORT = 0;
     public static final int XBOX_X_PORT = 0;
     public static final int XBOX_Y_PORT = 0;
+    ///////////////////////////////////////////////////////////////////
+	public static final double WEIGHT_DATA = 0;
+	public static final double WEIGHT_SMOOTH = 0;
+    ///////////////////////////////////////////////////////////////////
+	
 }

@@ -62,7 +62,7 @@ public class Shooter extends SubsystemBase {
    * 
    */
   public double getDesiredVelocity(double distance){
-    double Vpow2 = (Constants.G*Math.pow(distance,2))/(d*Math.sin(2*THROW_ANGLE) - (Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT)*(Math.cos(2*THROW_ANGLE)));
+    double Vpow2 = (Constants.G*Math.pow(distance,2))/(/*d**/Math.sin(2*THROW_ANGLE) - (Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT)*(Math.cos(2*THROW_ANGLE)));
     return Math.sqrt(Vpow2);
   }
 

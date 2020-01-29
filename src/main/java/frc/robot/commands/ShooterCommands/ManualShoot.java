@@ -36,7 +36,7 @@ public class ManualShoot extends CommandBase {
   @Override
   public void execute() {
     shooter.setSpeed(shooting_speed);
-    hopper.setFeedTalon(feeding_speed);
+    hopper.setFeederSpeed(feeding_speed);
   }
 
   // Called once the command ends or is interrupted.

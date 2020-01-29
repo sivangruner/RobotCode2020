@@ -23,7 +23,7 @@ public class ShootLower extends CommandBase{
   @Override
   public void initialize() {
     shooter.setSpeed(SHOOT_VEL);
-    hopper.setFeedTalon(FEED_VEL);
+    hopper.setFeederSpeed(FEED_VEL);
     hopper.setBeltsSpeed(BELTS_SPEED);
   }
 

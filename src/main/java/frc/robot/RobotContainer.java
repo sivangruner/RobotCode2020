@@ -10,6 +10,7 @@ import frc.robot.subsystems.Driver;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import io.github.oblarg.oblog.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.*;
@@ -36,6 +37,9 @@ public class RobotContainer {
     this.configureSubsystems();
     // 2. Building the joysticks and pairing to the commands
     this.configureButtonBindings();
+    // 3. Log all
+    Logger.configureLoggingAndConfig(this, true);
+
   }
 
   private void configureButtonBindings() {

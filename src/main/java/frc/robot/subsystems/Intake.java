@@ -16,6 +16,7 @@ public class Intake extends SubsystemBase {
   private boolean lastUpOrDown; //true-> the joint was goint down
   private boolean limitTopWorked=false;
   private boolean limitBottomWorked=false;
+  
   public Intake(){
     this.victorJoint = new WPI_VictorSPX(RobotMap.IntakePorts.JOINT);
     this.talonRoller = new WPI_TalonSRX(RobotMap.IntakePorts.ROLLER);

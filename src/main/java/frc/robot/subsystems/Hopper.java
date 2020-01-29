@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class Hopper extends SubsystemBase {
@@ -23,27 +22,18 @@ public class Hopper extends SubsystemBase {
   public Hopper() {
     this.beltsTalon = new TalonSRX(RobotMap.HopperPorts.TALON_BELTS_PORT);
     this.feedTalon = new TalonSRX(RobotMap.HopperPorts.TALON_BELTS_PORT);
+  }
 
-    this.beltsTalon.configFactoryDefault();
-    this.feedTalon.configFactoryDefault();
+  public void configMotorControllers(){
 
-    /* 
-    // Not sure what this is ¯\_(ツ)_/¯
-
-    beltsTalon.setInverted(false);
-    feedTalon.setInverted(false);
-    beltsTalon.setSensorPhase(false);
-    feedTalon.setSensorPhase(false);
-    */
-    this.updateCurrents();
   }
 
   public double getBeltSpeed(){
-    return this.beltsTalon.getSelectedSensorVelocity();
+    return this.beltsTalon.getMotorOutputPercent();
   }
 
   public double getFeedSpeed(){
-    return this.feedTalon.getSelectedSensorVelocity();
+    return this.feedTalon.getMotorOutputPercent();
   }
 
   public void setBeltsSpeed(double s){
@@ -54,13 +44,13 @@ public class Hopper extends SubsystemBase {
     }
   }
 
-  public void setFeedTalon(double s){
+  public void setFeederSpeed(double s){
     this.feedTalon.set(ControlMode.PercentOutput, s);
   }
 
   public void updateCurrents() {
-    this.currentBelts = this.beltsTalon.getOutputCurrent();
-    this.currentFeed = this.feedTalon.getOutputCurrent();
+    // this.currentBelts = this.beltsTalon.getOutputCurrent();
+    // this.currentFeed = this.feedTalon.getOutputCurrent();
   }
 
   public double getCurrentBeltsTalon(){
@@ -72,7 +62,7 @@ public class Hopper extends SubsystemBase {
   }
 
   private void resetCurrentStartBelts(){
-    this.startCurrentBelts = this.beltsTalon.getOutputCurrent();
+    // this.startCurrentBelts = this.beltsTalon.getOutputCurrent();
   }
 
   private void resetCurrentStartFeed(){
