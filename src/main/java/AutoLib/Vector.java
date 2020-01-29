@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.AutoLib;
+package AutoLib;
 
 import java.util.function.Consumer;
 
@@ -17,10 +17,9 @@ import io.github.oblarg.oblog.annotations.Log;
 /**
  * Add your docs here.
  */
-public class Vector implements Loggable, Sendable {
+public class Vector implements Sendable {
 
     public double x;
-
     public double y;
 
     public Vector() {

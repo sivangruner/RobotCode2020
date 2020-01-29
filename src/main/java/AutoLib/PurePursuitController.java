@@ -1,4 +1,4 @@
-package frc.robot.AutoLib;
+package AutoLib;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package frc.robot.AutoLib;
+package AutoLib;
 
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;

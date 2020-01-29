@@ -21,8 +21,7 @@ public class Shooter extends SubsystemBase {
   
 
   // constants
-  public static final double throwingAngle = Math.toRadians(0);
-  public static final 
+  public static final double THROW_ANGLE = Math.toRadians(0);
   public Shooter() {
     this.leader = new WPI_TalonSRX(RobotMap.ShooterPorts.TALON_PORT);
     this.follower = new WPI_VictorSPX(RobotMap.ShooterPorts.VICTOR_PORT);
@@ -43,18 +42,11 @@ public class Shooter extends SubsystemBase {
     this.leader.config_kD(0,PIDF.KD.value);
     this.leader.config_kF(0,PIDF.kF.value);
   }
-
-  public void switchAccelerate(){
-  }
-
-  
-
   public int getEncoderPos(){
     return this.leader.getSelectedSensorPosition();
   }
   public double getVelocity(){
-    // in M/S
-    return (double)this.leader.getSelectedSensorVelocity()/10;
+    return (double)this.leader.getSelectedSensorVelocity()*10;
   }
   public void setSpeed(double speed){
     // sets the Velocity in RPM
@@ -69,38 +61,33 @@ public class Shooter extends SubsystemBase {
    * 
    */
   public double getDesiredVelocity(double distance){
-    double Vpow2 = (Constants.G*Math.pow(distance,2))/(d*Math.sin(2*throwingAngle) - (Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT)*(Math.cos(2*throwingAngle)));
+    double Vpow2 = (Constants.G*Math.pow(distance,2))/(d*Math.sin(2*THROW_ANGLE) - (Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT)*(Math.cos(2*THROW_ANGLE)));
     return Math.sqrt(Vpow2);
   }
-//hello
+
+
   /**
    * @param distance 
    * returns true if the shooter is ready to shoot by the velocity of the shooter
    */
-  public boolean isReadyForShooting(){
-    //TODO: the math that represantes that
-    //import math; done. :)
-    return false; // temporery for now
+  public boolean isReadyForShooting(double distance){
+    return Math.abs(getDesiredVelocity(distance) -getVelocity()) <= .5;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 
   private double calculateMinDistance(){
-    double MinThrowingSpeed = calculateMinSpeed();
-    double Vy = MinThrowingSpeed*Math.sin(throwingAngle);
-    double Vx = MinThrowingSpeed*Math.sin(throwingAngle);
-    return Vx*Vy/Constants.G;
+    return (Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT)/Math.tan(THROW_ANGLE);
   }
-  private double calculateMinSpeed(){
-    double sin = Math.sin(throwingAngle);
-    double heightDifference = Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT;
-    return Math.sqrt(
-      (2*Constants.G/Math.pow(sin, 2))*heightDifference
-      );
-  }
+  // private double calculateMinSpeed(){
+  //   double sin = Math.sin(THROW_ANGLE);
+  //   double heightDifference = Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT;
+  //   return Math.sqrt(
+  //     (2*Constants.G/Math.pow(sin, 2))*heightDifference
+  //     );
+  // }
   enum PIDF{
     kP(0),
     kI(0),
