@@ -22,6 +22,7 @@ public class Shooter extends SubsystemBase {
 
   // constants
   public static final double THROW_ANGLE = Math.toRadians(0);
+ 
   public Shooter() {
     this.leader = new WPI_TalonSRX(RobotMap.ShooterPorts.TALON_PORT);
     this.follower = new WPI_VictorSPX(RobotMap.ShooterPorts.VICTOR_PORT);

@@ -5,12 +5,7 @@
 // | \_\ \  / __ \_  \___ \   / __ \_ / /_/ | 
 // |___  / (____  / /____  > (____  / \____ | 
 //                                 
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,10 +16,15 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 public class Climb extends SubsystemBase {
+  
   private WPI_TalonSRX left, right;
   private WPI_VictorSPX open;
   private boolean active;
 
+  private static double leftLimiter = 1; 
+  private static double rightLimiter = 1;
+  private static double openLimiter = 1;
+  
   public Climb() {
     this.right = new WPI_TalonSRX(RobotMap.ClimbPorts.TALON_RIGHT);
     this.left = new WPI_TalonSRX(RobotMap.ClimbPorts.TALON_LEFT);
@@ -32,10 +32,21 @@ public class Climb extends SubsystemBase {
     this.active = false;
   }
 
+  private void configMotorControllers(){
+
+  }
+
   @Override
   public void periodic() {
-    if(Math.abs(getRightMotorPrecentOutput()) > 0 || Math.abs(getLeftMotorPrecentOutput()) > 0 || Math.abs(getOpenMotorPrecentOutput()) > 0)
-      this.active = true;
+    
+  }
+
+  public void setState(boolean state){
+    this.active = state;
+  }
+  
+  public boolean getState(){
+    return this.active;
   }
 
   public double getLeftMotorPrecentOutput(){
@@ -49,13 +60,16 @@ public class Climb extends SubsystemBase {
     return this.open.getMotorOutputPercent();
   }
   
-  
-  public void setRightMotorPrecent(double percant){
-    this.right.set(ControlMode.PercentOutput, percant);
-
+  public void setOpenMotorSpeed(double demand){
+    this.open.set(ControlMode.PercentOutput, demand*this.openLimiter);
   }
-  public void setLeftMotorPrecent(double percant){
-    this.left.set(ControlMode.PercentOutput, percant);
+  
+  public void setRightMotorSpeed(double demand){
+    this.right.set(ControlMode.PercentOutput, Math.max(demand*this.rightLimiter,0));
+  }
+
+  public void setLeftMotorSpeed(double demand){
+    this.left.set(ControlMode.PercentOutput, Math.max(demand*this.leftLimiter,0));
   }
   
 }

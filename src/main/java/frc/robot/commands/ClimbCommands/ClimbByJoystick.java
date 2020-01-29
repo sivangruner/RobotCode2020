@@ -10,43 +10,43 @@
 //    
 package frc.robot.commands.ClimbCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Climb;
 
-public class ClimbCommand extends CommandBase {
+public class ClimbByJoystick extends CommandBase {
+  
   private Climb climbSubSystem;
-  private JoystickButton left;
-  private JoystickButton right;
-  private JoystickButton both;
+  private DoubleSupplier leftJoystick;
+  private DoubleSupplier rightJoystick;
 
 
-  public ClimbCommand(Climb m_climb) {
-    climbSubSystem = m_climb;
-    left = RobotContainer.driverController;
-    addRequirements(climbSubSystem);
+  public ClimbByJoystick(Climb m_climb, DoubleSupplier left, DoubleSupplier right) {
+    this.climbSubSystem = m_climb;
+    this.leftJoystick = left;
+    this.rightJoystick = right;
+
+    addRequirements(this.climbSubSystem);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if()
+    this.climbSubSystem.setLeftMotorSpeed(this.leftJoystick.getAsDouble());
+    this.climbSubSystem.setRightMotorSpeed(this.rightJoystick.getAsDouble());
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    this.climbSubSystem.setLeftMotorSpeed(0);
+    this.climbSubSystem.setRightMotorSpeed(0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

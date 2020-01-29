@@ -12,37 +12,32 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climb;
 
-public class ClimbLift extends CommandBase {
+public class ClimbOpen extends CommandBase {
+  
   private Climb climbSubSystem;
-  private DoubleSupplier joystick;
-  public ClimbLift(Climb m_Climb, DoubleSupplier joystick) {
+  private DoubleSupplier input;
+  
+  public ClimbOpen(Climb m_Climb, DoubleSupplier input) {
     this.climbSubSystem = m_Climb;
-    this.joystick = joystick;
+    this.input = input;
+  
     addRequirements(this.climbSubSystem);
   }
 
-  
-
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climbSubSystem.setRightMotorPrecent(joystick.getAsDouble()); 
-    climbSubSystem.setLeftMotorPrecent(joystick.getAsDouble());
+    this.climbSubSystem.setOpenMotorSpeed(this.input.getAsDouble());
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climbSubSystem.setRightMotorPrecent(0); 
-    climbSubSystem.setLeftMotorPrecent(0);
+    this.climbSubSystem.setOpenMotorSpeed(0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
