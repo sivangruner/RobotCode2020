@@ -25,9 +25,8 @@ public class ClimbCommand extends CommandBase {
 
   public ClimbCommand(Climb m_climb) {
     climbSubSystem = m_climb;
-    left = RobotContainer.
+    left = RobotContainer.driverController;
     addRequirements(climbSubSystem);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

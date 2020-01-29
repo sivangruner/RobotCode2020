@@ -36,15 +36,16 @@ public class AutoFix extends CommandBase {
     change = 3;
   }
 
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while(climbSubSystem.getLeftMotorPercanteOutput() > climbSubSystem.getRightMotorPercanteOutput() + p){
-      climbSubSystem.setRightMotorPercante(climbSubSystem.getRightMotorPercanteOutput() + change);
+    while(climbSubSystem.getLeftMotorPrecentOutput() > climbSubSystem.getRightMotorPrecentOutput() + p){
+      climbSubSystem.setRightMotorPercante(climbSubSystem.getRightMotorPrecentOutput() + change);
       change *= 0.8;
     }
-    while(climbSubSystem.getLeftMotorPercante() < climbSubSystem.getRightMotorPercante() + p){
-      climbSubSystem.setLeftMotorPercante(climbSubSystem.getLeftMotorPercanteOutput() + change);
+    while(climbSubSystem.getLeftMotorPrecentOutput() < climbSubSystem.getRightMotorPrecentOutput() + p){
+      climbSubSystem.setLeftMotorPercante(climbSubSystem.getLeftMotorPrecentOutput() + change);
       change *= 0.8;
     }
   }

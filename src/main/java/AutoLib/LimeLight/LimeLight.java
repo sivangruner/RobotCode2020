@@ -39,6 +39,10 @@ public class LimeLight {
         return Math.toDegrees(Math.atan2(this.virtualPos.y, this.virtualPos.z));
     }
 
+    public double getDistance(){
+        return this.virtualPos.z;
+    }
+
     public void offSetCameraCalc(){ 
         double y = Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT;
         double z = y/Math.tan(Math.toRadians(table.getEntry("ty").getDouble(0) + Y_ANGLE_OFFSET + 24.85));

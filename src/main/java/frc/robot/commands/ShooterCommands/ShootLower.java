@@ -6,12 +6,9 @@ import frc.robot.subsystems.Hopper;
 import frc.robot.RobotContainer;
 
 public class ShootLower extends CommandBase{
-     /**
-   * Creates a new AutoShoot.
-   */
-  public static final double FEED_VEL = 0.6;
-  public static final double SHOOT_VEL = 0.4;
-  public static final double BELTS_SPEED = 0.4;
+  private static final double FEED_VEL = 0.6;
+  private static final double SHOOT_VEL = 0.4;
+  private static final double BELTS_SPEED = 0.4;
   private Shooter shooter;
   private Hopper hopper;
 
@@ -43,6 +40,6 @@ public class ShootLower extends CommandBase{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Robot;
+    return true;
   }
 }

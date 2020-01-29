@@ -34,27 +34,27 @@ public class Climb extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if((Math.abs((getRightMotorPercanteOutput()) > 0) || (Math.abs((getLeftMotorPercanteOutput()) > 0) || (Math.abs((getOpenMotorPercanteOutput()) > 0))
+    if(Math.abs(getRightMotorPrecentOutput()) > 0 || Math.abs(getLeftMotorPrecentOutput()) > 0 || Math.abs(getOpenMotorPrecentOutput()) > 0)
       this.active = true;
-    }
+  }
 
-  public double getLeftMotorPercanteOutput(){
+  public double getLeftMotorPrecentOutput(){
     return this.left.getMotorOutputPercent();
   }
-  public double getRightMotorPercanteOutput(){
+  public double getRightMotorPrecentOutput(){
     return this.right.getMotorOutputPercent();
   }
 
-  public double getOpenMotorPercanteOutput(){
+  public double getOpenMotorPrecentOutput(){
     return this.open.getMotorOutputPercent();
   }
   
   
-  public void setRightMotorPercante(double percant){
+  public void setRightMotorPrecent(double percant){
     this.right.set(ControlMode.PercentOutput, percant);
 
   }
-  public void setLeftMotorPercante(double percant){
+  public void setLeftMotorPrecent(double percant){
     this.left.set(ControlMode.PercentOutput, percant);
   }
   

@@ -6,6 +6,7 @@
 
 package frc.robot.commands.HopperCommands;
 
+import AutoLib.LimeLight.LimeLight;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hopper;
 import frc.robot.subsystems.Shooter;
@@ -15,9 +16,10 @@ public class FeedToShooter extends CommandBase {
   private Shooter shooter;
   private double speedBelts, speedFeed;
   private boolean isReady; // Is ready to feed balls to shooter
-  /** 
-   * Creates a new FeedToShooter.
-   */
+
+
+
+
   public FeedToShooter(Hopper hopper, Shooter shooter, double sFeed, double sBelts) {
     this.shooter = shooter;
     this.hopper = hopper;
@@ -25,7 +27,6 @@ public class FeedToShooter extends CommandBase {
     this.speedFeed = sFeed;
 
     addRequirements(this.hopper, this.shooter);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -38,8 +39,7 @@ public class FeedToShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    this.isReady = this.shooter.isReadyForShooting();
-
+    this.isReady = this.shooter.isReadyForShooting(LimeLight.getInstance().getDistance());
     if (this.isReady)
       this.hopper.setFeedTalon(this.speedBelts);
   }
