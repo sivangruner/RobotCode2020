@@ -8,9 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
-/**
- * Add your docs here.
- */
 public class PurePursuitController {
 
     private WPI_TalonSRX right;
