@@ -1,57 +1,76 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.ClimbCommands.ClimbByJoystick;
+import frc.robot.commands.ClimbCommands.ClimbOpen;
+import frc.robot.commands.ShooterCommands.Accelerate;
+import frc.robot.commands.ShooterCommands.ShootLower;
+import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.Driver;
+import frc.robot.subsystems.Hopper;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import io.github.oblarg.oblog.Logger;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-/**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  //////////////////////////////////////////////////////////
+  private Driver driver;
+  private Intake intake;
+  private Hopper hopper;
+  private Shooter shooter;
+  private Climb climb;
+  //////////////////////////////////////////////////////////
+  private XboxController driverController, operatorController;
+  private JoystickButton A_DRIVER, A_OPERATOR;
+  private JoystickButton B_DRIVER, B_OPERATOR;
+  private JoystickButton Y_DRIVER, Y_OPERATOR;
+  private JoystickButton X_DRIVER, X_OPERATOR;
 
-
-
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
+  //////////////////////////////////////////////////////////
   public RobotContainer() {
-    
-    configureButtonBindings();
+    // 1. Building the Subsystems
+    this.configureSubsystems();
+    // 2. Building the joysticks and pairing to the commands
+    this.configureButtonBindings();
+    // 3. Log all
+    Logger.configureLoggingAndConfig(this, true);
+
   }
 
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
+    this.driverController = new XboxController(Constants.JOYSTICK_DRIVER_PORT);
+    this.B_DRIVER = new JoystickButton(this.driverController, Constants.XBOX_B_PORT);
+    this.A_DRIVER = new JoystickButton(this.driverController, Constants.XBOX_A_PORT);
+    this.X_DRIVER = new JoystickButton(this.driverController, Constants.XBOX_X_PORT);
+    this.Y_DRIVER = new JoystickButton(this.driverController, Constants.XBOX_Y_PORT);
+    this.B_OPERATOR = new JoystickButton(this.operatorController, Constants.XBOX_B_PORT);
+    this.A_OPERATOR = new JoystickButton(this.operatorController, Constants.XBOX_A_PORT);
+    this.X_OPERATOR = new JoystickButton(this.operatorController, Constants.XBOX_X_PORT);
+    this.Y_OPERATOR = new JoystickButton(this.operatorController, Constants.XBOX_Y_PORT);
+    //////////////////////////////////////////////////////////
+    this.climb.setDefaultCommand(new ClimbByJoystick(this.climb, () -> {if(this.climb.getState())return operatorController.getRawAxis(1); else return 0;},
+      () -> {if(this.climb.getState())return operatorController.getRawAxis(2); else return 0;}));
+      this.A_OPERATOR.whileHeld(new ClimbOpen(this.climb,() -> (1.0)));
+      this.Y_OPERATOR.whileHeld(new ClimbOpen(this.climb,() -> (-1.0)));
+      this.B_DRIVER.whenPressed(new InstantCommand(() -> this.climb.setState(!this.climb.getState())));
+    //////////////////////////////////////////////////////////
     
+    }
+
+  public Command getAutonomousCommand() {
+    return null;
   }
 
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    return m_autoCommand;
+  private void configureSubsystems() {
+    this.driver = new Driver();
+    this.intake = new Intake();
+    this.hopper = new Hopper();
+    this.shooter = new Shooter();
+    this.climb = new Climb();
   }
 }
