@@ -12,6 +12,7 @@ public final class Constants {
     public static final double METER_PER_TICK = .001558524480;
     public static final double TICKS_PER_100MS_TO_PRM = 60 * 10 / TICKS_PER_REVOLTION;
     public static final double TRACK_WIDTH = 0;
+    public static final double THROW_ANGLE = Math.toRadians(0);
 	public static final double timesRawVelocityToMeters = 0;
     ////////////////////////////////////////////////////////////////////
     // field constants
@@ -30,5 +31,5 @@ public final class Constants {
 	public static final double WEIGHT_DATA = 0;
 	public static final double WEIGHT_SMOOTH = 0;
     ///////////////////////////////////////////////////////////////////
-	
+    ///////////////////////////////////////////////////////////////////
 }
