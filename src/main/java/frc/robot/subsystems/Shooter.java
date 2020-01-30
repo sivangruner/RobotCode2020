@@ -37,7 +37,7 @@ public class Shooter extends SubsystemBase {
   }
 
 
-  public void configMotors(){
+  public void configMotorControllers(){
     this.leader.config_kP(0,PIDF.kP.value);
     this.leader.config_kI(0,PIDF.kI.value);
     this.leader.config_kD(0,PIDF.KD.value);

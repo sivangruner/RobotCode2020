@@ -33,7 +33,7 @@ public class JointByJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(this.intake.lastUpOrDown()){
+    if(this.intake.isGoingUp()){
       if(this.intake.getLimitBottom()){
         this.intake.setSpeedJoint(0);
       }

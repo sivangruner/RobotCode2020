@@ -10,21 +10,25 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import io.github.oblarg.oblog.annotations.Config;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 public class Climb extends SubsystemBase {
-  
+
   private WPI_TalonSRX left, right;
   private WPI_VictorSPX open;
   private boolean active;
 
-  private static double leftLimiter = 1; 
-  private static double rightLimiter = 1;
-  private static double openLimiter = 1;
-  
+  @Config
+  private double leftLimiter = 1;
+  @Config
+  private double rightLimiter = 1;
+  @Config
+  private double openLimiter = 1;
+
   public Climb() {
     this.right = new WPI_TalonSRX(RobotMap.ClimbPorts.TALON_RIGHT);
     this.left = new WPI_TalonSRX(RobotMap.ClimbPorts.TALON_LEFT);
@@ -32,44 +36,49 @@ public class Climb extends SubsystemBase {
     this.active = false;
   }
 
-  private void configMotorControllers(){
+  private void configMotorControllers() {
 
   }
 
   @Override
   public void periodic() {
-    
+
   }
 
-  public void setState(boolean state){
+  public void setState(boolean state) {
     this.active = state;
   }
-  
-  public boolean getState(){
+
+  public boolean getState() {
     return this.active;
   }
 
-  public double getLeftMotorPrecentOutput(){
+  public void flipState() {
+    setState(!this.getState());
+  }
+
+  public double getLeftMotorPrecentOutput() {
     return this.left.getMotorOutputPercent();
   }
-  public double getRightMotorPrecentOutput(){
+
+  public double getRightMotorPrecentOutput() {
     return this.right.getMotorOutputPercent();
   }
 
-  public double getOpenMotorPrecentOutput(){
+  public double getOpenMotorPrecentOutput() {
     return this.open.getMotorOutputPercent();
   }
-  
-  public void setOpenMotorSpeed(double demand){
-    this.open.set(ControlMode.PercentOutput, demand*this.openLimiter);
-  }
-  
-  public void setRightMotorSpeed(double demand){
-    this.right.set(ControlMode.PercentOutput, Math.max(demand*this.rightLimiter,0));
+
+  public void setOpenMotorSpeed(double demand) {
+    this.open.set(ControlMode.PercentOutput, demand * this.openLimiter);
   }
 
-  public void setLeftMotorSpeed(double demand){
-    this.left.set(ControlMode.PercentOutput, Math.max(demand*this.leftLimiter,0));
+  public void setRightMotorSpeed(double demand) {
+    this.right.set(ControlMode.PercentOutput, Math.max(demand * this.rightLimiter, 0));
   }
-  
+
+  public void setLeftMotorSpeed(double demand) {
+    this.left.set(ControlMode.PercentOutput, Math.max(demand * this.leftLimiter, 0));
+  }
+
 }

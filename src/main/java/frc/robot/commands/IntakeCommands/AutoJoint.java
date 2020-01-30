@@ -6,40 +6,41 @@ import frc.robot.subsystems.Intake;
 public class AutoJoint extends CommandBase {
   private Intake intake; 
   private double speed;
-  private boolean lastUpOrDown;
-//hello this is dolev hi :) -doelv
-//need help? no ok :)      -sivan
-//dolev tamot :)           -sivan
+  private boolean direction, prevDirection = false, isTop = false, isBottom = false;
+
   public AutoJoint(Intake m_intake, double speed) {
     this.intake = m_intake;
     this.speed = speed;
+
     addRequirements(intake);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {  
+    isTop = intake.isTopSwitch();
+    isBottom = intake.isBottomSwitch();
+    if(isTop)
+      direction = true;
+    else if(isBottom)
+      direction = false;
+      
+
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(intake.getLimitBottom() && intake.lastUpOrDown())
-      while(!intake.getLimitTop())
-        intake.setSpeedJoint(-speed);
-    if(intake.getLimitTop() && intake.lastUpOrDown()==false)
-      while(!intake.getLimitBottom())
-        intake.setSpeedJoint(speed);
+    if(isBottom)
+      speed = -speed;
+    this.intake.setSpeedJoint(this.speed);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     intake.setSpeedJoint(0);
   }
-  // Returns true when the command should end.
+
   @Override
   public boolean isFinished() {
-    return false;
+    return this.intake.isTopSwitch();
   }
 }
