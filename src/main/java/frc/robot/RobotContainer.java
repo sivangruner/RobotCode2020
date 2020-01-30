@@ -3,9 +3,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClimbCommands.ClimbByJoystick;
 import frc.robot.commands.ClimbCommands.ClimbOpen;
+import frc.robot.commands.DriverCommands.ArcadeDrive;
+import frc.robot.commands.HopperCommands.FeedToShooter;
+import frc.robot.commands.ShooterCommands.ShootPercentOutputWhileHeld;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Driver;
 import frc.robot.subsystems.Hopper;
@@ -36,7 +40,6 @@ public class RobotContainer {
     this.configureButtonBindings();
     // 3. Log all
     Logger.configureLoggingAndConfig(this, true);
-
   }
 
   private void configureButtonBindings() {
@@ -65,6 +68,14 @@ public class RobotContainer {
     this.Y_OPERATOR.whileHeld(new ClimbOpen(this.climb, () -> (-1.0)));
     this.B_DRIVER.whenPressed(new InstantCommand(() -> this.climb.flipState()));
     //////////////////////////////////////////////////////////
+    this.driver.setDefaultCommand(new ArcadeDrive(() -> this.driverController.getRawAxis(1),
+        () -> this.driverController.getRawAxis(4), () -> this.climb.getState(), this.driver));
+    //////////////////////////////////////////////////////////
+    this.A_DRIVER
+        .whileHeld(new ParallelRaceGroup(new ShootPercentOutputWhileHeld(this.shooter, Constants.LOWER_SHOOT_SPEED),
+            new FeedToShooter(this.hopper, Constants.HOPPER_LOAD_BALLS_SPEED, Constants.HOPPER_FEEDER_SPEED)));
+    //////////////////////////////////////////////////////////
+
   }
 
   public Command getAutonomousCommand() {

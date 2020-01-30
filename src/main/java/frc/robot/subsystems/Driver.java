@@ -16,9 +16,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
 
-public class Driver extends SubsystemBase implements Loggable{
-  
+public class Driver extends SubsystemBase implements Loggable {
+
   private WPI_TalonSRX leftLeader, rightLeader;
   private WPI_VictorSPX leftFollower, rightFollower;
   private SpeedControllerGroup leftSpeedControllerGroup, rightSpeedControllerGroup;
@@ -26,6 +27,8 @@ public class Driver extends SubsystemBase implements Loggable{
   private PigeonIMU gyro;
   private PIDConfig leftConfig, rightConfig;
   private PurePursuitController controller;
+  @Config
+  double rotationLimiter = 0, speedLimiter = 0;
 
   public Driver() {
     this.leftLeader = new WPI_TalonSRX(RobotMap.DriverPorts.LEFT_LEADER);
@@ -36,25 +39,27 @@ public class Driver extends SubsystemBase implements Loggable{
     this.rightSpeedControllerGroup = new SpeedControllerGroup(rightLeader, rightFollower);
     this.diffDrive = new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
     this.gyro = new PigeonIMU(0);
-    
+
   }
 
-  public void initPurepursuit(ArrayList<Waypoint> path){
-    this.controller = new PurePursuitController(path, Constants.LOOKAHEAD_DISTANCE, this.rightLeader, this.leftLeader, this.leftConfig, this.rightConfig);
+  public void initPurepursuit(ArrayList<Waypoint> path) {
+    this.controller = new PurePursuitController(path, Constants.LOOKAHEAD_DISTANCE, this.rightLeader, this.leftLeader,
+        this.leftConfig, this.rightConfig);
   }
 
-  public void configMotorControllers(){
+  public void configMotorControllers() {
     this.leftLeader.setNeutralMode(NeutralMode.Brake);
     this.leftFollower.setNeutralMode(NeutralMode.Brake);
     this.rightLeader.setNeutralMode(NeutralMode.Brake);
     this.rightFollower.setNeutralMode(NeutralMode.Brake);
 
-    this.leftFollower.follow(this.leftLeader);;
+    this.leftFollower.follow(this.leftLeader);
+    ;
     this.rightFollower.follow(this.rightLeader);
-    
+
   }
 
-  public void configMotorControllers(double robotVoltage){
+  public void configMotorControllers(double robotVoltage) {
 
   }
 
@@ -62,33 +67,34 @@ public class Driver extends SubsystemBase implements Loggable{
   public void periodic() {
   }
 
-  public void arcadeDrive(double speed, double rotation){
-    this.diffDrive.arcadeDrive(-speed, rotation);
+  public void arcadeDrive(double speed, double rotation) {
+    this.diffDrive.arcadeDrive(-speed * this.speedLimiter, rotation * this.rotationLimiter);
   }
 
-  public void tankDriveVolts(double leftDemand, double rightDemand){
+  public void tankDriveVolts(double leftDemand, double rightDemand) {
     this.leftSpeedControllerGroup.setVoltage(leftDemand);
     this.rightSpeedControllerGroup.setVoltage(rightDemand);
   }
 
-  public void tankDrive (double leftDemand, double rightDemand){
+  public void tankDrive(double leftDemand, double rightDemand) {
     this.leftSpeedControllerGroup.set(leftDemand);
     this.rightSpeedControllerGroup.set(rightDemand);
   }
-  
-  public void resetGyro(){
+
+  public void resetGyro() {
 
   }
 
-  public void setGyro(double angle){
+  public void setGyro(double angle) {
 
   }
 
-  public double getLeftPositionInMeters(){
-    return this.leftLeader.getSelectedSensorPosition()*Constants.METER_PER_TICK;
+  public double getLeftPositionInMeters() {
+    return this.leftLeader.getSelectedSensorPosition() * Constants.METER_PER_TICK;
   }
-  public double getRightPositionInMeters(){
-    return this.rightLeader.getSelectedSensorPosition()*Constants.METER_PER_TICK;
+
+  public double getRightPositionInMeters() {
+    return this.rightLeader.getSelectedSensorPosition() * Constants.METER_PER_TICK;
   }
-  
+
 }

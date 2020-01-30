@@ -4,7 +4,7 @@ public final class Constants {
     ////////////////////////////////////////////////////////////////////
     public static final double HOPPER_SPEED = 0;
     public static final double HOPPER_LOAD_BALLS_SPEED = 0;
-    public static final double HOPPER_FEED_SPEED = 0;
+    public static final double HOPPER_FEEDER_SPEED = 0;
     public static final double HOPPER_CURRENT_DELTA = 0;
     ////////////////////////////////////////////////////////////////////
     public static final int TICKS_PER_REVOLTION = 4096;
@@ -33,4 +33,5 @@ public final class Constants {
     ///////////////////////////////////////////////////////////////////
     public static final double LOOKAHEAD_DISTANCE = 0;
     ///////////////////////////////////////////////////////////////////
+	public static final double LOWER_SHOOT_SPEED = 0;
 }
