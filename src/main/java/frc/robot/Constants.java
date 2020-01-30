@@ -31,5 +31,6 @@ public final class Constants {
 	public static final double WEIGHT_DATA = 0;
 	public static final double WEIGHT_SMOOTH = 0;
     ///////////////////////////////////////////////////////////////////
+    public static final double LOOKAHEAD_DISTANCE = 0;
     ///////////////////////////////////////////////////////////////////
 }

@@ -13,22 +13,24 @@ public class PurePursuitController {
     private WPI_TalonSRX right;
     private WPI_TalonSRX left;
 
-    private DrivePIDConfig config;
-
+    private PIDConfig configLeft;
+    private PIDConfig configRight;
+    
     private double lookDistance;
     private int lastClosestPoint;
     public double lastLookaheadindex;
     private ArrayList<Waypoint> path;
 
     public PurePursuitController(ArrayList<Waypoint> path, double lookDis,
-     WPI_TalonSRX right, WPI_TalonSRX left, DrivePIDConfig config) {
+     WPI_TalonSRX right, WPI_TalonSRX left, PIDConfig configLeft, PIDConfig configRight) {
         this.lookDistance = lookDis;
         this.path = path;
         this.lastClosestPoint = 0;
         this.lastLookaheadindex = 0;
         this.right = right;
         this.left = left;
-        this.config = config;
+        this.configLeft = configLeft;
+        this.configRight = configRight;
         configPIDConstants();
         
     }
@@ -50,22 +52,27 @@ public class PurePursuitController {
     private void configPIDConstants(){
         this.left.configClosedLoopPeriod(0, 1);
         this.right.configClosedLoopPeriod(0, 1);
-        this.left.config_kP(0, config.LkP);
-        this.left.config_kI(0, config.LkI);
-        this.left.config_kD(0, config.LkD);
-        this.left.config_kF(0, config.LkF);
-        this.right.config_kP(0, config.RkP);
-        this.right.config_kI(0, config.RkI);
-        this.right.config_kD(0, config.RkD);
-        this.right.config_kF(0, config.RkF);
+        this.left.config_kP(0, configLeft.getKp());
+        this.left.config_kI(0, configLeft.getKi());
+        this.left.config_kD(0, configLeft.getKd());
+        this.left.config_kF(0, configLeft.getKf());
+        this.right.config_kP(0, configRight.getKp());
+        this.right.config_kI(0, configRight.getKi());
+        this.right.config_kD(0, configRight.getKd());
+        this.right.config_kF(0, configRight.getKf());
     }
 
-    public DrivePIDConfig getConfig() {
-        return config;
+    public PIDConfig getConfigLeft() {
+        return this.configLeft;
+    }
+    
+    public PIDConfig getConfigRight() {
+        return this.configRight;
     }
 
-    public void setConfig(DrivePIDConfig config) {
-        this.config = config;
+    public void setConfig(PIDConfig left, PIDConfig right) {
+        this.configLeft = left;
+        this.configRight = right;
     }
 
     public void resetPurePursuit() {

@@ -1,34 +1,46 @@
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import AutoLib.PIDConfig;
+import AutoLib.PurePursuitController;
+import AutoLib.Waypoint;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import io.github.oblarg.oblog.Loggable;
 
-public class Driver extends SubsystemBase {
+public class Driver extends SubsystemBase implements Loggable{
   
   private WPI_TalonSRX leftLeader, rightLeader;
   private WPI_VictorSPX leftFollower, rightFollower;
-  private SpeedControllerGroup left, right;
+  private SpeedControllerGroup leftSpeedControllerGroup, rightSpeedControllerGroup;
   private DifferentialDrive diffDrive;
   private PigeonIMU gyro;
+  private PIDConfig leftConfig, rightConfig;
+  private PurePursuitController controller;
 
   public Driver() {
     this.leftLeader = new WPI_TalonSRX(RobotMap.DriverPorts.LEFT_LEADER);
     this.rightLeader = new WPI_TalonSRX(RobotMap.DriverPorts.RIGHT_LEADER);
     this.leftFollower = new WPI_VictorSPX(RobotMap.DriverPorts.LEFT_FOLLOWER);
     this.rightFollower = new WPI_VictorSPX(RobotMap.DriverPorts.RIGHT_FOLLOWER);
-    this.left = new SpeedControllerGroup(leftLeader, leftFollower);
-    this.right = new SpeedControllerGroup(rightLeader, rightFollower);
-    this.diffDrive = new DifferentialDrive(left, right);
+    this.leftSpeedControllerGroup = new SpeedControllerGroup(leftLeader, leftFollower);
+    this.rightSpeedControllerGroup = new SpeedControllerGroup(rightLeader, rightFollower);
+    this.diffDrive = new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
     this.gyro = new PigeonIMU(0);
     
+  }
+
+  public void initPurepursuit(ArrayList<Waypoint> path){
+    this.controller = new PurePursuitController(path, Constants.LOOKAHEAD_DISTANCE, this.rightLeader, this.leftLeader, this.leftConfig, this.rightConfig);
   }
 
   public void configMotorControllers(){
@@ -55,13 +67,13 @@ public class Driver extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftDemand, double rightDemand){
-    this.left.setVoltage(leftDemand);
-    this.right.setVoltage(rightDemand);
+    this.leftSpeedControllerGroup.setVoltage(leftDemand);
+    this.rightSpeedControllerGroup.setVoltage(rightDemand);
   }
 
   public void tankDrive (double leftDemand, double rightDemand){
-    this.left.set(leftDemand);
-    this.right.set(rightDemand);
+    this.leftSpeedControllerGroup.set(leftDemand);
+    this.rightSpeedControllerGroup.set(rightDemand);
   }
   
   public void resetGyro(){

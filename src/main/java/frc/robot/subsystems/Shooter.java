@@ -3,7 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import AutoLib.PIDConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -11,11 +12,13 @@ import frc.robot.RobotMap;
 public class Shooter extends SubsystemBase {
   private WPI_TalonSRX leader;
   private WPI_VictorSPX follower;
+  PIDConfig config;
 
   public Shooter() {
     this.leader = new WPI_TalonSRX(RobotMap.ShooterPorts.TALON_PORT);
     this.follower = new WPI_VictorSPX(RobotMap.ShooterPorts.VICTOR_PORT);
     this.follower.follow(this.leader);
+    this.config = new PIDConfig(0,0,0,0);
   }
 
   public void configMotorControllers() {

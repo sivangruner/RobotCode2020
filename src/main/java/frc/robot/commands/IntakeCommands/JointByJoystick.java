@@ -33,16 +33,16 @@ public class JointByJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(this.intake.isGoingUp()){
-      if(this.intake.getLimitBottom()){
-        this.intake.setSpeedJoint(0);
-      }
-    }
-    else{
-      if(this.intake.getLimitTop())
-        this.intake.setSpeedJoint(0);
-    }
-    this.intake.setSpeedJoint(this.joystick.getAsDouble());
+  //   if(this.intake.isGoingUp()){
+  //     if(this.intake.getLimitBottom()){
+  //       this.intake.setSpeedJoint(0);
+  //     }
+  //   }
+  //   else{
+  //     if(this.intake.getLimitTop())
+  //       this.intake.setSpeedJoint(0);
+  //   }
+  //   this.intake.setSpeedJoint(this.joystick.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
