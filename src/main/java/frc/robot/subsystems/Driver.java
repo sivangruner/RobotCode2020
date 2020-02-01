@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -30,6 +31,9 @@ public class Driver extends SubsystemBase implements Loggable {
   @Config
   double rotationLimiter = 0, speedLimiter = 0;
 
+
+  DoubleSupplier angle;
+
   public Driver() {
     this.leftLeader = new WPI_TalonSRX(RobotMap.DriverPorts.LEFT_LEADER);
     this.rightLeader = new WPI_TalonSRX(RobotMap.DriverPorts.RIGHT_LEADER);
@@ -40,11 +44,13 @@ public class Driver extends SubsystemBase implements Loggable {
     this.diffDrive = new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
     this.gyro = new PigeonIMU(0);
 
+    angle = () -> getYaw();
+    
   }
 
   public void initPurepursuit(ArrayList<Waypoint> path) {
     this.controller = new PurePursuitController(path, Constants.LOOKAHEAD_DISTANCE, this.rightLeader, this.leftLeader,
-        this.leftConfig, this.rightConfig);
+      this.leftConfig, this.rightConfig);
   }
 
   public void configMotorControllers() {
@@ -54,9 +60,7 @@ public class Driver extends SubsystemBase implements Loggable {
     this.rightFollower.setNeutralMode(NeutralMode.Brake);
 
     this.leftFollower.follow(this.leftLeader);
-    ;
     this.rightFollower.follow(this.rightLeader);
-
   }
 
   public void configMotorControllers(double robotVoltage) {
@@ -68,6 +72,10 @@ public class Driver extends SubsystemBase implements Loggable {
   }
 
   public void arcadeDrive(double speed, double rotation) {
+    if(Math.abs(speed)<0.2)
+      speed = 0;
+    if(Math.abs(rotation)<0.2)
+      rotation = 0;
     this.diffDrive.arcadeDrive(-speed * this.speedLimiter, rotation * this.rotationLimiter);
   }
 
@@ -82,11 +90,23 @@ public class Driver extends SubsystemBase implements Loggable {
   }
 
   public void resetGyro() {
-
+    this.gyro.setYaw(0);
+    
   }
 
-  public void setGyro(double angle) {
-
+  public void setAngle(double angle) {
+    this.gyro.setYaw(angle);
+  }
+  public double getYaw(){
+    double angle;
+    double[] ypr = new double[3];
+    this.gyro.getYawPitchRoll(ypr);
+    
+    angle = ypr[0]%360;
+    if(angle >180) angle -=360;
+    if(angle <-180) angle +=360;
+    setAngle(angle);
+    return angle;
   }
 
   public double getLeftPositionInMeters() {
@@ -96,5 +116,4 @@ public class Driver extends SubsystemBase implements Loggable {
   public double getRightPositionInMeters() {
     return this.rightLeader.getSelectedSensorPosition() * Constants.METER_PER_TICK;
   }
-
 }
