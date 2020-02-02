@@ -7,11 +7,9 @@ import io.github.oblarg.oblog.Logger;
 public class Robot extends TimedRobot {
   public static RobotContainer robotContainer;
 
-
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
-    
   }
 
   @Override
@@ -30,6 +28,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    robotContainer.autoInit();
   }
 
   @Override
@@ -38,6 +37,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    robotContainer.teleopInit();
   }
 
   @Override

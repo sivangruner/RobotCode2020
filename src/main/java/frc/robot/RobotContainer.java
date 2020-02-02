@@ -97,4 +97,13 @@ public class RobotContainer {
     this.shooter = new Shooter();
     this.climb = new Climb();
   }
+
+  public void teleopInit(){
+
+  }
+
+  public void autoInit(){
+    
+  }
+
 }
