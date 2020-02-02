@@ -122,7 +122,7 @@ public class Path extends ArrayList<Waypoint> {
         for(Waypoint p : waypoints){
             this.add(p);
         if(smoothAndInject)
-            SmoothPoints(Constants.WEIGHT_DATA, Constants.WEIGHT_SMOOTH);
+            SmoothPoints(Constants.DriverConstants.WEIGHT_DATA, Constants.DriverConstants.WEIGHT_SMOOTH);
         
     }
 }

@@ -18,7 +18,7 @@ public class Shooter extends SubsystemBase {
     this.leader = new WPI_TalonSRX(RobotMap.ShooterPorts.TALON_PORT);
     this.follower = new WPI_VictorSPX(RobotMap.ShooterPorts.VICTOR_PORT);
     this.follower.follow(this.leader);
-    this.config = new PIDConfig(0,0,0,0);
+    this.config = new PIDConfig(0, 0, 0, 0);
   }
 
   public void configMotorControllers() {
@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getVelocityInRawPerSecond() {
-    return (double) this.leader.getSelectedSensorVelocity() * 10;
+    return (double) this.leader.getSelectedSensorVelocity() * Constants.GeneralConstants.TalonVelocityDT;
   }
 
   public void setSpeed(double demand) {
@@ -38,15 +38,18 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setVelocity(double RPM) {
-    this.leader.set(ControlMode.Velocity, RPM / Constants.TICKS_PER_100MS_TO_PRM);
+    this.leader.set(ControlMode.Velocity, RPM / Constants.ShooterConstants.TICKS_PER_100MS_TO_PRM);
   }
+
   /**
    * @param distance calculates the
    * @return desired motor velocity
    */
   public double getDesiredVelocity(double distance) {
-    double Vpow2 = (Constants.G * Math.pow(distance, 2)) / (/* d **/Math.sin(2 * Constants.THROW_ANGLE)
-        - (Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT) * (Math.cos(2 * Constants.THROW_ANGLE)));
+    double Vpow2 = (Constants.GeneralConstants.G * Math.pow(distance, 2))
+        / (/* d **/Math.sin(2 * Constants.ShooterConstants.THROW_ANGLE)
+            - (Constants.GeneralConstants.POWER_PORT_HEIGHT - Constants.GeneralConstants.ROBOT_HEIGHT)
+                * (Math.cos(2 * Constants.ShooterConstants.THROW_ANGLE)));
     return Math.sqrt(Vpow2);
   }
 
@@ -63,7 +66,8 @@ public class Shooter extends SubsystemBase {
   }
 
   private double calculateMinDistance() {
-    return (Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT) / Math.tan(Constants.THROW_ANGLE);
+    return (Constants.GeneralConstants.POWER_PORT_HEIGHT - Constants.GeneralConstants.ROBOT_HEIGHT)
+        / Math.tan(Constants.ShooterConstants.THROW_ANGLE);
   }
 
   // private double calculateMinSpeed(){
@@ -74,5 +78,5 @@ public class Shooter extends SubsystemBase {
   // (2*Constants.G/Math.pow(sin, 2))*heightDifference
   // );
   // }
-  
+
 }

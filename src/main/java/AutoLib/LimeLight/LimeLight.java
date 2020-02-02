@@ -80,11 +80,11 @@ public class LimeLight {
      * using the camera offSet from the center of the robot
      */
     public void offSetCameraCalc(){ 
-        double y = Constants.POWER_PORT_HEIGHT - Constants.ROBOT_HEIGHT;
+        double y = Constants.GeneralConstants.POWER_PORT_HEIGHT - Constants.GeneralConstants.ROBOT_HEIGHT;
         double z = y/Math.tan(Math.toRadians(table.getEntry("ty").getDouble(0) + Y_ANGLE_OFFSET + 24.85));
         double x = Math.tan(Math.toRadians(table.getEntry("tx").getDouble(0) + X_ANGLE_OFFSET))*z;
 
-        Vector3D OFFset = new Vector3D(X_POSITION_OFFSET,Y_POSITION_OFFSET,Constants.ROBOT_HEIGHT);
+        Vector3D OFFset = new Vector3D(X_POSITION_OFFSET,Y_POSITION_OFFSET,Constants.GeneralConstants.ROBOT_HEIGHT);
         Vector3D Target = new Vector3D(x,y,z);
         this.TargetPos = Vector3D.subtract(Target,OFFset);
     }

@@ -1,30 +1,32 @@
 package frc.robot.commands.ShooterCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-public class ShootPercentOutputWhileHeld extends CommandBase {
+public class ShootLowerWhileHeld extends CommandBase {
   private Shooter shooter;
-  private double demand;
 
-  public ShootPercentOutputWhileHeld(Shooter shooter, double demand) {
+  public ShootLowerWhileHeld(Shooter shooter) {
     this.shooter = shooter;
-    this.demand = demand;
 
     addRequirements(this.shooter);
+
+    SmartDashboard.putNumber("Shooter Lower Speed", 1);
   }
 
   @Override
   public void initialize() {
+    this.shooter.setSpeed(SmartDashboard.getNumber("Shooter Lower Speed", 1));
   }
 
   @Override
   public void execute() {
-    this.shooter.setSpeed(this.demand);
   }
 
   @Override
   public void end(boolean interrupted) {
+    this.shooter.setSpeed(0);
   }
 
   @Override

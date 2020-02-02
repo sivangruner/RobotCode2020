@@ -3,7 +3,9 @@ package frc.robot.commands.DriverCommands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Driver;
 
 public class ArcadeDrive extends CommandBase {
@@ -22,21 +24,25 @@ public class ArcadeDrive extends CommandBase {
 
   @Override
   public void initialize() {
+    SmartDashboard.putNumber("Speed Limiter", Constants.DriverConstants.SPEED_LIMITER);
+    SmartDashboard.putNumber("Rotation Limiter", Constants.DriverConstants.ROTATION_LIMITER);
+    SmartDashboard.putNumber("Climb Speed Limiter", Constants.DriverConstants.CLIMB_SPEED_LIMITER);
+    SmartDashboard.putNumber("Climb Rotation Limiter", Constants.DriverConstants.CLIMB_ROTATION_LIMITER);
   }
 
   @Override
   public void execute() {
     if(!this.isClimbing.getAsBoolean())
-    this.driver.arcadeDrive(this.speedAxis.getAsDouble(), this.rotationAxis.getAsDouble());
+    this.driver.arcadeDrive(this.speedAxis.getAsDouble() * SmartDashboard.getNumber("Speed Limiter", Constants.DriverConstants.SPEED_LIMITER),
+     this.rotationAxis.getAsDouble() * SmartDashboard.getNumber("Rotation Limiter", Constants.DriverConstants.ROTATION_LIMITER));
     else
-    this.driver.arcadeDrive(this.speedAxis.getAsDouble()*0.6, this.rotationAxis.getAsDouble()*0.7);
-
-    
+    this.driver.arcadeDrive(this.speedAxis.getAsDouble() * SmartDashboard.getNumber("Climb Speed Limiter", Constants.DriverConstants.CLIMB_SPEED_LIMITER),
+     this.rotationAxis.getAsDouble() * SmartDashboard.getNumber("Climb Rotation Limiter", Constants.DriverConstants.CLIMB_ROTATION_LIMITER));
   }
 
   @Override
   public void end(boolean interrupted) {
-
+    
   }
 
   @Override

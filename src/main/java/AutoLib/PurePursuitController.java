@@ -40,11 +40,11 @@ public class PurePursuitController {
         Vector look = getLookaheadPoint(robotOdometry);
     
         double sc = getCurvature(robotAngle, robotOdometry, look);   
-        double ls = getLeftTargetVelocity(closest, sc, Constants.TRACK_WIDTH);
-        double rs = getRightTargetVelocity(closest, sc, Constants.TRACK_WIDTH);
+        double ls = getLeftTargetVelocity(closest, sc, Constants.DriverConstants.TRACK_WIDTH);
+        double rs = getRightTargetVelocity(closest, sc, Constants.DriverConstants.TRACK_WIDTH);
     
-        right.set(ControlMode.Velocity, -rs/Constants.timesRawVelocityToMeters);
-        left.set(ControlMode.Velocity, ls/Constants.timesRawVelocityToMeters);
+        right.set(ControlMode.Velocity, -rs/Constants.DriverConstants.timesRawVelocityToMeters);
+        left.set(ControlMode.Velocity, ls/Constants.DriverConstants.timesRawVelocityToMeters);
         SmartDashboard.putNumber("LS", ls);
         SmartDashboard.putNumber("RS", -rs);
     }

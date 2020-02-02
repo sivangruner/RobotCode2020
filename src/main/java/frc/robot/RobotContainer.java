@@ -9,7 +9,9 @@ import frc.robot.commands.ClimbCommands.ClimbByJoystick;
 import frc.robot.commands.ClimbCommands.ClimbOpen;
 import frc.robot.commands.DriverCommands.ArcadeDrive;
 import frc.robot.commands.HopperCommands.FeedToShooter;
-import frc.robot.commands.ShooterCommands.ShootPercentOutputWhileHeld;
+import frc.robot.commands.ShooterCommands.Accelerate;
+import frc.robot.commands.ShooterCommands.AutoShoot;
+import frc.robot.commands.ShooterCommands.ShootLowerWhileHeld;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Driver;
 import frc.robot.subsystems.Hopper;
@@ -18,7 +20,6 @@ import frc.robot.subsystems.Shooter;
 import io.github.oblarg.oblog.Logger;
 
 public class RobotContainer {
-
   //////////////////////////////////////////////////////////
   private Driver driver;
   private Intake intake;
@@ -53,6 +54,7 @@ public class RobotContainer {
     this.X_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_X_PORT);
     this.Y_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_Y_PORT);
     //////////////////////////////////////////////////////////
+    // CLIMBER COMMANDS
     this.climb.setDefaultCommand(new ClimbByJoystick(this.climb, () -> {
       if (this.climb.getState())
         return operatorController.getRawAxis(1);
@@ -68,12 +70,18 @@ public class RobotContainer {
     this.Y_OPERATOR.whileHeld(new ClimbOpen(this.climb, () -> (-1.0)));
     this.B_DRIVER.whenPressed(new InstantCommand(() -> this.climb.flipState()));
     //////////////////////////////////////////////////////////
+    // DRIVER COMMANDS
     this.driver.setDefaultCommand(new ArcadeDrive(() -> this.driverController.getRawAxis(1),
         () -> this.driverController.getRawAxis(4), () -> this.climb.getState(), this.driver));
+    this.X_DRIVER.whenPressed(new AutoShoot(), true);
     //////////////////////////////////////////////////////////
-    this.A_DRIVER
-        .whileHeld(new ParallelRaceGroup(new ShootPercentOutputWhileHeld(this.shooter, Constants.ShooterConstants.LOWER_SHOOT_SPEED),
-            new FeedToShooter(this.hopper, Constants.HopperConstants.HOPPER_LOAD_BALLS_SPEED, Constants.HopperConstants.HOPPER_FEEDER_SPEED)));
+    // SHOOTER COMMANDS
+    // Lower Shoot
+    this.A_DRIVER.whileHeld(
+        new ParallelRaceGroup(new ShootLowerWhileHeld(this.shooter), new FeedToShooter(this.hopper, () -> true)));
+    // MANUAL Higher Shoot from fixed distance
+    this.X_DRIVER.whileHeld(new ParallelRaceGroup(new Accelerate(this.shooter), new FeedToShooter(this.hopper,
+        () -> this.shooter.isReadyForShooting(Constants.ShooterConstants.ManualShootDistance))));
     //////////////////////////////////////////////////////////
 
   }

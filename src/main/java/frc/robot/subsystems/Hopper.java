@@ -12,9 +12,8 @@ import frc.robot.RobotMap;
 
 public class Hopper extends SubsystemBase {
   private TalonSRX beltsTalon, // Bakar shel hamasoah
-                     feedTalon; // Bakar shel hamaacheel
-  // private double startCurrentBelts, startCurrentFeed, 
-                  // currentBelts, currentFeed;
+      feedTalon; // Bakar shel hamaacheel
+
   /**
    * Hoppert.
    */
@@ -23,58 +22,27 @@ public class Hopper extends SubsystemBase {
     this.feedTalon = new TalonSRX(RobotMap.HopperPorts.TALON_BELTS_PORT);
   }
 
-  public void configMotorControllers(){
+  public void configMotorControllers() {
 
   }
 
-  public double getBeltSpeed(){
+  public double getBeltSpeed() {
     return this.beltsTalon.getMotorOutputPercent();
   }
 
-  public double getFeedSpeed(){
+  public double getFeedSpeed() {
     return this.feedTalon.getMotorOutputPercent();
   }
 
-  public void setBeltsSpeed(double s){
-    // if (startCurrentBelts - currentBelts > Constants.HOPPER_CURRENT_DELTA) {
-      // this.beltsTalon.set(ControlMode.PercentOutput, Constants.HOPPER_LOAD_BALLS_SPEED);
-    // } else {
-      this.beltsTalon.set(ControlMode.PercentOutput, s);
-    // }
+  public void setBeltsSpeed(double s) {
+    this.beltsTalon.set(ControlMode.PercentOutput, s);
   }
 
-  public void setFeederSpeed(double s){
+  public void setFeederSpeed(double s) {
     this.feedTalon.set(ControlMode.PercentOutput, s);
   }
 
-  public void updateCurrents() {
-    // this.currentBelts = this.beltsTalon.getOutputCurrent();
-    // this.currentFeed = this.feedTalon.getOutputCurrent();
-  }
-
-  // public double getCurrentBeltsTalon(){
-  //   return this.currentBelts;
-  // }
-
-  // public double getCurrentFeedTalon(){
-  //   return this.currentFeed;
-  // }
-
-  // private void resetCurrentStartBelts(){
-  //   // this.startCurrentBelts = this.beltsTalon.getOutputCurrent();
-  // }
-
-  // private void resetCurrentStartFeed(){
-  //   // this.startCurrentFeed = this.feedTalon.getOutputCurrent();
-  // }
-
-  // public void configControl(){
-  //   this.resetCurrentStartBelts();
-  //   this.resetCurrentStartFeed();
-  // }
-
   @Override
   public void periodic() {
-    this.updateCurrents();
   }
 }

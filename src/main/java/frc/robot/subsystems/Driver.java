@@ -16,10 +16,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Config;
 
-public class Driver extends SubsystemBase implements Loggable {
+public class Driver extends SubsystemBase {
 
   private WPI_TalonSRX leftLeader, rightLeader;
   private WPI_VictorSPX leftFollower, rightFollower;
@@ -28,8 +26,7 @@ public class Driver extends SubsystemBase implements Loggable {
   private PigeonIMU gyro;
   private PIDConfig leftConfig, rightConfig;
   private PurePursuitController controller;
-  @Config
-  double rotationLimiter = 0, speedLimiter = 0;
+
 
 
   DoubleSupplier angle;
@@ -42,6 +39,7 @@ public class Driver extends SubsystemBase implements Loggable {
     this.leftSpeedControllerGroup = new SpeedControllerGroup(leftLeader, leftFollower);
     this.rightSpeedControllerGroup = new SpeedControllerGroup(rightLeader, rightFollower);
     this.diffDrive = new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
+    this.diffDrive.setDeadband(Constants.DriverConstants.DEADBAND);
     this.gyro = new PigeonIMU(0);
 
     angle = () -> getYaw();
@@ -49,7 +47,7 @@ public class Driver extends SubsystemBase implements Loggable {
   }
 
   public void initPurepursuit(ArrayList<Waypoint> path) {
-    this.controller = new PurePursuitController(path, Constants.LOOKAHEAD_DISTANCE, this.rightLeader, this.leftLeader,
+    this.controller = new PurePursuitController(path, Constants.DriverConstants.LOOKAHEAD_DISTANCE, this.rightLeader, this.leftLeader,
       this.leftConfig, this.rightConfig);
   }
 
@@ -72,11 +70,8 @@ public class Driver extends SubsystemBase implements Loggable {
   }
 
   public void arcadeDrive(double speed, double rotation) {
-    if(Math.abs(speed)<0.2)
-      speed = 0;
-    if(Math.abs(rotation)<0.2)
-      rotation = 0;
-    this.diffDrive.arcadeDrive(-speed * this.speedLimiter, rotation * this.rotationLimiter);
+    
+    this.diffDrive.arcadeDrive(-speed, rotation);
   }
 
   public void tankDriveVolts(double leftDemand, double rightDemand) {
@@ -110,10 +105,10 @@ public class Driver extends SubsystemBase implements Loggable {
   }
 
   public double getLeftPositionInMeters() {
-    return this.leftLeader.getSelectedSensorPosition() * Constants.METER_PER_TICK;
+    return this.leftLeader.getSelectedSensorPosition() * Constants.DriverConstants.METER_PER_TICK;
   }
 
   public double getRightPositionInMeters() {
-    return this.rightLeader.getSelectedSensorPosition() * Constants.METER_PER_TICK;
+    return this.rightLeader.getSelectedSensorPosition() * Constants.DriverConstants.METER_PER_TICK;
   }
 }
