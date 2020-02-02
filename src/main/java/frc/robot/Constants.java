@@ -25,7 +25,11 @@ public final class Constants {
         
     }
     public static class ClimbConstants {
-        public static double OPEN_LIMITER = 0;
+        public static final int TALON_RIGHT_PDPORT = 0;
+		public static final int TALON_LEFT_PDPORT = 0;
+		public static final double FIX_MIN_AMPDIFF = 1;
+		public static final double FIX_PROPORTION_VALUE = 0.1;
+		public static double OPEN_LIMITER = 0;
         public static double CLIMBERS_LIMITER = 0;
 
     }
