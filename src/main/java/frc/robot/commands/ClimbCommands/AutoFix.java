@@ -61,6 +61,8 @@ public class AutoFix extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    this.climb.setLeftMotorSpeed(0);
+    this.climb.setRightMotorSpeed(0);
   }
 
   @Override
