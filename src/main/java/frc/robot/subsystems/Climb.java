@@ -9,6 +9,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotMap;
 import io.github.oblarg.oblog.annotations.Config;
 
@@ -22,12 +23,6 @@ public class Climb extends SubsystemBase {
   private WPI_VictorSPX open;
   private boolean active;
 
-  @Config
-  private double leftLimiter = 1;
-  @Config
-  private double rightLimiter = 1;
-  @Config
-  private double openLimiter = 1;
 
   public Climb() {
     this.right = new WPI_TalonSRX(RobotMap.ClimbPorts.TALON_RIGHT);
@@ -70,15 +65,15 @@ public class Climb extends SubsystemBase {
   }
 
   public void setOpenMotorSpeed(double demand) {
-    this.open.set(ControlMode.PercentOutput, demand * this.openLimiter);
+    this.open.set(ControlMode.PercentOutput, demand);
   }
 
   public void setRightMotorSpeed(double demand) {
-    this.right.set(ControlMode.PercentOutput, Math.max(demand * this.rightLimiter, 0));
+    this.right.set(ControlMode.PercentOutput, Math.max(demand, 0));
   }
 
   public void setLeftMotorSpeed(double demand) {
-    this.left.set(ControlMode.PercentOutput, Math.max(demand * this.leftLimiter, 0));
+    this.left.set(ControlMode.PercentOutput, Math.max(demand, 0));
   }
 
 }

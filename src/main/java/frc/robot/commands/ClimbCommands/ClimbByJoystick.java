@@ -12,7 +12,9 @@ package frc.robot.commands.ClimbCommands;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Climb;
 
 public class ClimbByJoystick extends CommandBase {
@@ -28,17 +30,20 @@ public class ClimbByJoystick extends CommandBase {
     this.rightJoystick = right;
 
     addRequirements(this.climbSubSystem);
+    SmartDashboard.putNumber("Climb Climbers Limiter", Constants.ClimbConstants.CLIMBERS_LIMITER);
+
   }
 
   @Override
   public void initialize() {
+    SmartDashboard.putNumber("Climb Climbers Limiter", Constants.ClimbConstants.CLIMBERS_LIMITER);
     
   }
 
   @Override
   public void execute() {
-    this.climbSubSystem.setLeftMotorSpeed(this.leftJoystick.getAsDouble());
-    this.climbSubSystem.setRightMotorSpeed(this.rightJoystick.getAsDouble());
+    this.climbSubSystem.setLeftMotorSpeed(this.leftJoystick.getAsDouble()*SmartDashboard.getNumber("Climb Climbers Limiter", 0));
+    this.climbSubSystem.setRightMotorSpeed(this.rightJoystick.getAsDouble()*SmartDashboard.getNumber("Climb Climbers Limiter", 0));
   }
 
   @Override

@@ -43,15 +43,15 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    this.driverController = new XboxController(Constants.JOYSTICK_DRIVER_PORT);
-    this.B_DRIVER = new JoystickButton(this.driverController, Constants.XBOX_B_PORT);
-    this.A_DRIVER = new JoystickButton(this.driverController, Constants.XBOX_A_PORT);
-    this.X_DRIVER = new JoystickButton(this.driverController, Constants.XBOX_X_PORT);
-    this.Y_DRIVER = new JoystickButton(this.driverController, Constants.XBOX_Y_PORT);
-    this.B_OPERATOR = new JoystickButton(this.operatorController, Constants.XBOX_B_PORT);
-    this.A_OPERATOR = new JoystickButton(this.operatorController, Constants.XBOX_A_PORT);
-    this.X_OPERATOR = new JoystickButton(this.operatorController, Constants.XBOX_X_PORT);
-    this.Y_OPERATOR = new JoystickButton(this.operatorController, Constants.XBOX_Y_PORT);
+    this.driverController = new XboxController(Constants.GeneralConstants.JOYSTICK_DRIVER_PORT);
+    this.B_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_B_PORT);
+    this.A_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_A_PORT);
+    this.X_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_X_PORT);
+    this.Y_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_Y_PORT);
+    this.B_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_B_PORT);
+    this.A_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_A_PORT);
+    this.X_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_X_PORT);
+    this.Y_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_Y_PORT);
     //////////////////////////////////////////////////////////
     this.climb.setDefaultCommand(new ClimbByJoystick(this.climb, () -> {
       if (this.climb.getState())
@@ -72,8 +72,8 @@ public class RobotContainer {
         () -> this.driverController.getRawAxis(4), () -> this.climb.getState(), this.driver));
     //////////////////////////////////////////////////////////
     this.A_DRIVER
-        .whileHeld(new ParallelRaceGroup(new ShootPercentOutputWhileHeld(this.shooter, Constants.LOWER_SHOOT_SPEED),
-            new FeedToShooter(this.hopper, Constants.HOPPER_LOAD_BALLS_SPEED, Constants.HOPPER_FEEDER_SPEED)));
+        .whileHeld(new ParallelRaceGroup(new ShootPercentOutputWhileHeld(this.shooter, Constants.ShooterConstants.LOWER_SHOOT_SPEED),
+            new FeedToShooter(this.hopper, Constants.HopperConstants.HOPPER_LOAD_BALLS_SPEED, Constants.HopperConstants.HOPPER_FEEDER_SPEED)));
     //////////////////////////////////////////////////////////
 
   }
