@@ -6,12 +6,12 @@ import frc.robot.subsystems.Intake;
 public class AutoJoint extends CommandBase {
   private Intake intake; 
   private double speed;
-  private boolean direction, prevDirection = false, isTop = false, isBottom = false;
+  private boolean direction, prevDirection = false, isTop = false,isBottom = false;
 
+  // The speed value is for going down
   public AutoJoint(Intake m_intake, double speed) {
     this.intake = m_intake;
     this.speed = speed;
-
     addRequirements(intake);
   }
 
@@ -23,8 +23,6 @@ public class AutoJoint extends CommandBase {
       direction = true;
     else if(isBottom)
       direction = false;
-      
-
   }
 
   @Override

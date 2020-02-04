@@ -1,5 +1,6 @@
 package frc.robot;
 
+import AutoLib.LimeLight.LimeLight;
 import edu.wpi.first.hal.PDPJNI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +29,7 @@ public class RobotContainer {
   private Shooter shooter;
   private Climb climb;
   private PDPJNI pdp;
+  private LimeLight limelight;
   //////////////////////////////////////////////////////////
   private XboxController driverController, operatorController;
   private JoystickButton A_DRIVER, A_OPERATOR;
@@ -47,7 +49,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     this.driverController = new XboxController(Constants.GeneralConstants.JOYSTICK_DRIVER_PORT);
-    this.B_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_B_PORT);
+    this.B_DRIVER = new JoystickButton(this.driverController, XboxController.Button.kB.value);//Constants.GeneralConstants.XBOX_B_PORT);
     this.A_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_A_PORT);
     this.X_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_X_PORT);
     this.Y_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_Y_PORT);
@@ -80,9 +82,9 @@ public class RobotContainer {
     // SHOOTER COMMANDS
     // Lower Shoot
     this.A_DRIVER.whileHeld(
-        new ParallelRaceGroup(new ShootLowerWhileHeld(this.shooter), new FeedToShooter(this.hopper, () -> true)));
+        new ParallelRaceGroup(new ShootLowerWhileHeld(this.shooter,this.hopper), new FeedToShooter(this.hopper, () -> true)));
     // MANUAL Higher Shoot from fixed distance
-    this.X_DRIVER.whileHeld(new ParallelRaceGroup(new Accelerate(this.shooter), new FeedToShooter(this.hopper,
+    this.X_DRIVER.whileHeld(new ParallelRaceGroup(new Accelerate(this.shooter,this.limelight), new FeedToShooter(this.hopper,
         () -> this.shooter.isReadyForShooting(Constants.ShooterConstants.ManualShootDistance))));
     //////////////////////////////////////////////////////////
 
@@ -99,6 +101,7 @@ public class RobotContainer {
     this.shooter = new Shooter();
     this.climb = new Climb();
     this.pdp = new PDPJNI();
+    this.limelight = new LimeLight(() -> driver.getYaw());
   }
 
   public void teleopInit(){

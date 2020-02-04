@@ -33,8 +33,7 @@ public class LoadAndMaintainBalls extends CommandBase {
   @Override
   public void execute() {
     if (this.load.getAsBoolean())
-      this.hopper.setBeltsSpeed(
-          SmartDashboard.getNumber("Hopper Intake Speed", Constants.HopperConstants.HOPPER_LOAD_BALLS_SPEED));
+      this.hopper.setBeltsSpeed(SmartDashboard.getNumber("Hopper Intake Speed", Constants.HopperConstants.HOPPER_LOAD_BALLS_SPEED));
     else
       this.hopper.setBeltsSpeed(SmartDashboard.getNumber("Hopper Speed", Constants.HopperConstants.HOPPER_SPEED));
   }

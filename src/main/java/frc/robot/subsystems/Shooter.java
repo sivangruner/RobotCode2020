@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import AutoLib.PIDConfig;
+import AutoLib.LimeLight.LimeLight;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -13,6 +14,7 @@ public class Shooter extends SubsystemBase {
   private WPI_TalonSRX leader;
   private WPI_VictorSPX follower;
   PIDConfig config;
+
 
   public Shooter() {
     this.leader = new WPI_TalonSRX(RobotMap.ShooterPorts.TALON_PORT);

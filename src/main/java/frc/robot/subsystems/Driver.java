@@ -11,6 +11,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import AutoLib.PIDConfig;
 import AutoLib.PurePursuitController;
 import AutoLib.Waypoint;
+import AutoLib.LimeLight.LimeLight;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,10 +27,9 @@ public class Driver extends SubsystemBase {
   private PigeonIMU gyro;
   private PIDConfig leftConfig, rightConfig;
   private PurePursuitController controller;
+  
 
 
-
-  DoubleSupplier angle;
 
   public Driver() {
     this.leftLeader = new WPI_TalonSRX(RobotMap.DriverPorts.LEFT_LEADER);
@@ -41,9 +41,6 @@ public class Driver extends SubsystemBase {
     this.diffDrive = new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
     this.diffDrive.setDeadband(Constants.DriverConstants.DEADBAND);
     this.gyro = new PigeonIMU(0);
-
-    angle = () -> getYaw();
-    
   }
 
   public void initPurepursuit(ArrayList<Waypoint> path) {
