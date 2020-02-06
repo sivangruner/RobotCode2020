@@ -8,6 +8,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.hal.PDPJNI;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -22,14 +24,14 @@ public class Climb extends SubsystemBase {
   private WPI_TalonSRX left, right;
   private WPI_VictorSPX open;
   private boolean active;
-
+  private PowerDistributionPanel pdp;
 
   public Climb() {
     this.right = new WPI_TalonSRX(RobotMap.ClimbPorts.TALON_RIGHT);
     this.left = new WPI_TalonSRX(RobotMap.ClimbPorts.TALON_LEFT);
     this.open = new WPI_VictorSPX(RobotMap.ClimbPorts.VICTOR_CLIMB);
     this.active = false;
-
+    this.pdp = new PowerDistributionPanel();
     configMotorControllers();
   }
 
@@ -41,7 +43,14 @@ public class Climb extends SubsystemBase {
   public void periodic() {
 
   }
+  public double getCurrentRight(){
+    return pdp.getCurrent(Constants.ClimbConstants.TALON_RIGHT_PDPORT);
+  }
 
+  public double getCurrentLeft(){
+    return pdp.getCurrent(Constants.ClimbConstants.TALON_LEFT_PDPORT);
+  }
+  
   public void setState(boolean state) {
     this.active = state;
   }
