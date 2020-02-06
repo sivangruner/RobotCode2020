@@ -5,6 +5,7 @@ public final class Constants {
         public static final double HOPPER_SPEED = 0;
         public static final double HOPPER_LOAD_BALLS_SPEED = 0;
         public static final double HOPPER_FEEDER_SPEED = 0;
+		public static final double BELTS_SHOOTING_SPEED = 1;
     }
     public static class DriverConstants {
         public static final int TICKS_PER_REVOLTION = 4096;

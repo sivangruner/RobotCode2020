@@ -68,7 +68,7 @@ public class RobotContainer {
     }));
     this.A_OPERATOR.whileHeld(new ClimbOpen(this.climb, () -> (1.0)));
     this.Y_OPERATOR.whileHeld(new ClimbOpen(this.climb, () -> (-1.0)));
-    this.B_DRIVER.whenPressed(new InstantCommand(() -> this.climb.flipState()));
+    this.B_OPERATOR.whenPressed(new InstantCommand(() -> this.climb.flipState(), this.climb));
     //////////////////////////////////////////////////////////
     // DRIVER COMMANDS
     this.driver.setDefaultCommand(new ArcadeDrive(() -> this.driverController.getRawAxis(1),
@@ -82,6 +82,8 @@ public class RobotContainer {
     // MANUAL Higher Shoot from fixed distance
     this.X_DRIVER.whileHeld(new ParallelRaceGroup(new Accelerate(this.shooter), new FeedToShooter(this.hopper,
         () -> this.shooter.isReadyForShooting(Constants.ShooterConstants.ManualShootDistance))));
+    // ACCELERATE 
+    
     //////////////////////////////////////////////////////////
 
   }

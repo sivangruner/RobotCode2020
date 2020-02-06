@@ -22,6 +22,9 @@ public class Intake extends SubsystemBase {
     this.limitBottom = new DigitalInput(RobotMap.IntakePorts.LIMIT_BOTTOM);
   }
 
+  public boolean isIntaking(){
+    return true;
+  }
 
   public boolean isBottomSwitch() {
     return this.limitBottom.get();

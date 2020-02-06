@@ -29,10 +29,12 @@ public class Climb extends SubsystemBase {
     this.left = new WPI_TalonSRX(RobotMap.ClimbPorts.TALON_LEFT);
     this.open = new WPI_VictorSPX(RobotMap.ClimbPorts.VICTOR_CLIMB);
     this.active = false;
+
+    configMotorControllers();
   }
 
   private void configMotorControllers() {
-
+    
   }
 
   @Override

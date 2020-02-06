@@ -16,20 +16,25 @@ public class FeedToShooter extends CommandBase {
     this.isReady = isReady;
 
     addRequirements(hopper);
-
+    
+    SmartDashboard.putNumber("Belts Shoot Speed", Constants.HopperConstants.BELTS_SHOOTING_SPEED);
     SmartDashboard.putNumber("Feed Speed", Constants.HopperConstants.HOPPER_FEEDER_SPEED);
   }
 
   @Override
   public void initialize() {
-    SmartDashboard.putNumber("Feed Speed", Constants.HopperConstants.HOPPER_FEEDER_SPEED);
+    
   }
 
   @Override
   public void execute() {
-    if (this.isReady.getAsBoolean())
+    if (this.isReady.getAsBoolean()) {
       this.hopper.setFeederSpeed(SmartDashboard.getNumber("Feed Speed", Constants.HopperConstants.HOPPER_FEEDER_SPEED));
-
+      this.hopper.setBeltsSpeed(SmartDashboard.getNumber("Belts Shoot Speed", Constants.HopperConstants.BELTS_SHOOTING_SPEED));
+    }
+    else{
+      this.hopper.setFeederSpeed(0);
+    }
   }
 
   @Override
