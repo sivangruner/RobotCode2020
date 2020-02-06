@@ -38,6 +38,7 @@ public class RobotContainer {
   private JoystickButton B_DRIVER, B_OPERATOR;
   private JoystickButton Y_DRIVER, Y_OPERATOR;
   private JoystickButton X_DRIVER, X_OPERATOR;
+  private JoystickButton LB_DRIVER, LB_OPERATOR;
 
   //////////////////////////////////////////////////////////
   public RobotContainer() {
@@ -59,6 +60,7 @@ public class RobotContainer {
     this.A_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_A_PORT);
     this.X_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_X_PORT);
     this.Y_OPERATOR = new JoystickButton(this.operatorController, Constants.GeneralConstants.XBOX_Y_PORT);
+    this.LB_DRIVER = new JoystickButton(this.driverController, 5);
     //////////////////////////////////////////////////////////
     // CLIMBER COMMANDS
     this.climb.setDefaultCommand(new ClimbByJoystick(this.climb, () -> {
@@ -82,7 +84,7 @@ public class RobotContainer {
     this.X_DRIVER.whenPressed(new AutoShoot(this.shooter), true);
     //////////////////////////////////////////////////////////
     // INTAKE COMMANDS
-    this.B_DRIVER.whenPressed(new AutoJoint(this.intake, () -> this.intake.getDirection())
+    this.LB_DRIVER.whenPressed(new AutoJoint(this.intake, () -> this.intake.getDirection())
         .withTimeout(Constants.HopperConstants.AUTOJOINT_TIMEOUT));
     this.intake.setDefaultCommand(new AutoRoller(this.intake));
     //////////////////////////////////////////////////////////
