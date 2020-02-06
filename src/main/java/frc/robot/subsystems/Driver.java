@@ -41,6 +41,7 @@ public class Driver extends SubsystemBase {
     this.diffDrive = new DifferentialDrive(leftSpeedControllerGroup, rightSpeedControllerGroup);
     this.diffDrive.setDeadband(Constants.DriverConstants.DEADBAND);
     this.gyro = new PigeonIMU(0);
+    
   }
 
   public void initPurepursuit(ArrayList<Waypoint> path) {

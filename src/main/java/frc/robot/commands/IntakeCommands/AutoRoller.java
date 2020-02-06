@@ -1,11 +1,8 @@
 package frc.robot.commands.IntakeCommands;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.*;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
+import frc.robot.Constants;
+import frc.robot.subsystems.Intake;
 
 public class AutoRoller extends CommandBase {
   private Intake intake;
@@ -23,13 +20,16 @@ public class AutoRoller extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setSpeedJoint(-0.4);
+    if (intake.isTopSwitch()) {
+      this.intake.setSpeedRoller(0);
+    } else {
+      this.intake.setSpeedRoller(Constants.IntakeConstants.ROLLER_SPEED);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.setSpeedJoint(0);
   }
 
   // Returns true when the command should end.

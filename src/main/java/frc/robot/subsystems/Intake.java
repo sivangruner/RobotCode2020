@@ -13,17 +13,19 @@ public class Intake extends SubsystemBase {
   private WPI_TalonSRX talonRoller;
   private DigitalInput limitTop;
   private DigitalInput limitBottom;
-  
+  private boolean prevDirection;
 
   public Intake() {
     this.victorJoint = new WPI_VictorSPX(RobotMap.IntakePorts.JOINT);
     this.talonRoller = new WPI_TalonSRX(RobotMap.IntakePorts.ROLLER);
     this.limitTop = new DigitalInput(RobotMap.IntakePorts.LIMIT_TOP);
     this.limitBottom = new DigitalInput(RobotMap.IntakePorts.LIMIT_BOTTOM);
+    this.prevDirection = !isTopSwitch();
   }
 
-  public boolean isIntaking(){
-    return true;
+  public boolean getDirection(){
+    this.prevDirection = !prevDirection;
+    return isTopSwitch()||this.prevDirection;
   }
 
   public boolean isBottomSwitch() {
@@ -31,7 +33,7 @@ public class Intake extends SubsystemBase {
   }
 
   public boolean isTopSwitch() {
-    return this.limitBottom.get();
+    return this.limitTop.get();
   }
 
   public double getSpeedJoint() {

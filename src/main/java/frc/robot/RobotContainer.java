@@ -11,6 +11,8 @@ import frc.robot.commands.ClimbCommands.ClimbByJoystick;
 import frc.robot.commands.ClimbCommands.ClimbOpen;
 import frc.robot.commands.DriverCommands.ArcadeDrive;
 import frc.robot.commands.HopperCommands.FeedToShooter;
+import frc.robot.commands.IntakeCommands.AutoJoint;
+import frc.robot.commands.IntakeCommands.AutoRoller;
 import frc.robot.commands.ShooterCommands.Accelerate;
 import frc.robot.commands.ShooterCommands.AutoShoot;
 import frc.robot.commands.ShooterCommands.ShootLowerWhileHeld;
@@ -49,7 +51,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     this.driverController = new XboxController(Constants.GeneralConstants.JOYSTICK_DRIVER_PORT);
-    this.B_DRIVER = new JoystickButton(this.driverController, XboxController.Button.kB.value);//Constants.GeneralConstants.XBOX_B_PORT);
+    this.B_DRIVER = new JoystickButton(this.driverController, XboxController.Button.kB.value);// Constants.GeneralConstants.XBOX_B_PORT);
     this.A_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_A_PORT);
     this.X_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_X_PORT);
     this.Y_DRIVER = new JoystickButton(this.driverController, Constants.GeneralConstants.XBOX_Y_PORT);
@@ -77,17 +79,23 @@ public class RobotContainer {
     // DRIVER COMMANDS
     this.driver.setDefaultCommand(new ArcadeDrive(() -> this.driverController.getRawAxis(1),
         () -> this.driverController.getRawAxis(4), () -> this.climb.getState(), this.driver));
-    this.X_DRIVER.whenPressed(new AutoShoot(), true);
+    this.X_DRIVER.whenPressed(new AutoShoot(this.shooter), true);
+    //////////////////////////////////////////////////////////
+    // INTAKE COMMANDS
+    this.B_DRIVER.whenPressed(new AutoJoint(this.intake, () -> this.intake.getDirection())
+        .withTimeout(Constants.HopperConstants.AUTOJOINT_TIMEOUT));
+    this.intake.setDefaultCommand(new AutoRoller(this.intake));
     //////////////////////////////////////////////////////////
     // SHOOTER COMMANDS
     // Lower Shoot
-    this.A_DRIVER.whileHeld(
-        new ParallelRaceGroup(new ShootLowerWhileHeld(this.shooter,this.hopper), new FeedToShooter(this.hopper, () -> true)));
+    this.A_DRIVER.whileHeld(new ParallelRaceGroup(new ShootLowerWhileHeld(this.shooter, this.hopper),
+        new FeedToShooter(this.hopper, () -> true)));
     // MANUAL Higher Shoot from fixed distance
-    this.X_DRIVER.whileHeld(new ParallelRaceGroup(new Accelerate(this.shooter,this.limelight), new FeedToShooter(this.hopper,
-        () -> this.shooter.isReadyForShooting(Constants.ShooterConstants.ManualShootDistance))));
-    // ACCELERATE 
-    
+    this.X_DRIVER
+        .whileHeld(new ParallelRaceGroup(new Accelerate(this.shooter, this.limelight), new FeedToShooter(this.hopper,
+            () -> this.shooter.isReadyForShooting(Constants.ShooterConstants.ManualShootDistance))));
+    // ACCELERATE
+
     //////////////////////////////////////////////////////////
 
   }
@@ -106,12 +114,12 @@ public class RobotContainer {
     this.limelight = new LimeLight(() -> driver.getYaw());
   }
 
-  public void teleopInit(){
+  public void teleopInit() {
 
   }
 
-  public void autoInit(){
-    
+  public void autoInit() {
+
   }
 
 }
