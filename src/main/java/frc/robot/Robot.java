@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     Logger.updateEntries();
   }
-
+//sivan doesnt suck
   @Override
   public void disabledInit() {
   }
